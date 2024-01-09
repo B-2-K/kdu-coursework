@@ -5,7 +5,8 @@ public class Main {
     public static void main(String[] args) {
         // Integration of functionalities
         Scanner sc = new Scanner(System.in);
-        Student student = new Student();
+//        Student student = new Student();
+        Student student = new Student(1, "John Doe", 20, "A");
         int id = sc.nextInt();
         String name = sc.nextLine();
         int age = sc.nextInt();
