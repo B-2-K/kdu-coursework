@@ -1,17 +1,14 @@
 package org.calculateSentiment;
-
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SentimentAnalyzer {
-
     private static final Logger logger = LoggerFactory.getLogger(SentimentAnalyzer.class);
-
     public static int[] detectProsAndCons(String review, String[][] featureSet, String[] posOpinionWords, String[] negOpinionWords) {
         int[] featureOpinions = new int[featureSet.length];
-
-        for (int i = 0; i < featureSet.length; i++) {
+        int n = featureSet.length;
+        for (int i = 0; i < n; i++) {
             String[] features = featureSet[i];
             for (String feature : features) {
                 int opinion = getOpinionOnFeature(review, feature, posOpinionWords, negOpinionWords);
@@ -23,24 +20,20 @@ public class SentimentAnalyzer {
                 }
             }
         }
-
         return featureOpinions;
     }
 
     private static int getOpinionOnFeature(String review, String feature, String[] posOpinionWords, String[] negOpinionWords) {
         int opinion = checkForWasPhrasePattern(review, feature, posOpinionWords, negOpinionWords);
-
         if (opinion == 0) {
             opinion = checkForOpinionFirstPattern(review, feature, posOpinionWords, negOpinionWords);
         }
-
         return opinion;
     }
 
     private static int checkForWasPhrasePattern(String review, String feature, String[] posOpinionWords, String[] negOpinionWords) {
         int opinion = 0;
         String pattern = feature + " was ";
-
         if (review.toLowerCase().contains(pattern)) {
             for (String posOpinion : posOpinionWords) {
                 if (review.toLowerCase().contains(pattern + posOpinion)) {
@@ -66,7 +59,6 @@ public class SentimentAnalyzer {
 
     private static int checkForOpinionFirstPattern(String review, String feature, String[] posOpinionWords, String[] negOpinionWords) {
         int opinion = 0;
-
         for (String sentence : review.split("\\.")) {
             for (String posOpinion : posOpinionWords) {
                 if (sentence.toLowerCase().contains(posOpinion + " " + feature)) {

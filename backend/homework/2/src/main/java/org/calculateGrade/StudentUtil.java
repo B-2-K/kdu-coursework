@@ -3,8 +3,6 @@ import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class StudentUtil {
     private static final Logger logger = LoggerFactory.getLogger(StudentUtil.class);
     public static double[] calculateGPA(int[] studentIdList, char[][] studentsGrades) {
@@ -30,7 +28,6 @@ public class StudentUtil {
                     case 'C':
                         totalPoints += 2;
                         break;
-                    // Add more cases if needed for other grades
                 }
             }
             result[i] = totalPoints / (double) totalCourses;
@@ -69,15 +66,18 @@ public class StudentUtil {
         return result;
     }
 
-    // Example usage:
+    // Main method
     public static void main(String[] args) {
+        // Sample Input
         int[] studentIdList = {1001, 1002};
         char[][] studentsGrades = {{'A', 'A', 'A', 'B'}, {'A', 'B', 'B'}};
 
+        // calculating the GPA of the students
         double[] gpas = calculateGPA(studentIdList, studentsGrades);
         System.out.println(Arrays.toString(gpas));
         logger.info("GPAs: {}", Arrays.toString(gpas));
 
+        // filtering the students by GPA
         int[] filteredStudents = getStudentsByGPA(3.2, 3.5, studentIdList, studentsGrades);
         System.out.println(Arrays.toString(filteredStudents));
         logger.info("Filtered Students: {}", Arrays.toString(filteredStudents));

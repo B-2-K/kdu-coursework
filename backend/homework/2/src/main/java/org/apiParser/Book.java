@@ -56,4 +56,3 @@ public class Book {
         this.imageUrl = imageUrl;
     }
 }
-

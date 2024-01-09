@@ -1,12 +1,9 @@
 package org.apiParser;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class APIResponseParser {
-
     private static final Logger logger = LoggerFactory.getLogger(APIResponseParser.class);
-
     public static Book parse(String response) {
         Book book = new Book();
 
