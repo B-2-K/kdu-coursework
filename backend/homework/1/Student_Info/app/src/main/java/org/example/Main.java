@@ -4,7 +4,6 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         // Integration of functionalities
-//        Student student = new Student(1, "John Doe", 20, "A");
         Scanner sc = new Scanner(System.in);
         Student student = new Student();
         int id = sc.nextInt();
