@@ -11,11 +11,11 @@ public class StudentUtil {
             return new double[0];
         }
 
-        double[] result = new double[studentIdList.length];
+        int noOfStudentIds = studentIdList.length;
+        double[] result = new double[noOfStudentIds];
 
-        for (int i = 0; i < studentIdList.length; i++) {
+        for (int i = 0; i < noOfStudentIds; i++) {
             int totalPoints = 0;
-            int totalCourses = studentsGrades[i].length;
 
             for (char grade : studentsGrades[i]) {
                 switch (grade) {
@@ -29,10 +29,12 @@ public class StudentUtil {
                         totalPoints += 2;
                         break;
                     default:
-                        logger.error("Enter the valid grade");
+                        logger.error("Enter the valid grade!!!");
                         break;
                 }
             }
+
+            int totalCourses = studentsGrades[i].length;
             result[i] = totalPoints / (double) totalCourses;
         }
 
@@ -40,8 +42,8 @@ public class StudentUtil {
     }
 
     public static int[] getStudentsByGPA(double lower, double higher, int[] studentIdList, char[][] studentsGrades) {
+        // parameter validation
         if (lower < 0 || higher < 0 || lower > higher || studentIdList == null || studentsGrades == null || studentIdList.length != studentsGrades.length) {
-            // Parameter validation
             return new int[0];
         }
 
@@ -59,9 +61,9 @@ public class StudentUtil {
         }
 
         int[] result = new int[count];
-        int index = 0;
+        int index = 0, noOfStudentIdList = studentIdList.length;
 
-        for (int i = 0; i < studentIdList.length; i++) {
+        for (int i = 0; i < noOfStudentIdList; i++) {
             if (gpas[i] >= lower && gpas[i] <= higher) {
                 result[index++] = studentIdList[i];
             }
@@ -77,10 +79,10 @@ public class StudentUtil {
 
         // calculating the GPA of the students
         double[] gpas = calculateGPA(studentIdList, studentsGrades);
-        System.out.println(Arrays.toString(gpas));
+        logger.info("GPAs: {}", Arrays.toString(gpas));
 
         // filtering the students by GPA
         int[] filteredStudents = getStudentsByGPA(3.2, 3.5, studentIdList, studentsGrades);
-        System.out.println(Arrays.toString(filteredStudents));
+        logger.info("Filtered Students: {}", filteredStudents);
     }
 }

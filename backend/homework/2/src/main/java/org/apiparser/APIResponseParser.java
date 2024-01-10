@@ -45,7 +45,8 @@ public class APIResponseParser {
     private static String parse(String response, String startRule, String endRule) {
         int start = response.indexOf(startRule) + startRule.length();
         int end = response.indexOf(endRule, start);
-        return response.substring(start, end);
+        String result = response.substring(start, end);
+        return result;
     }
 
     public static void main(String[] args) {
@@ -76,12 +77,12 @@ public class APIResponseParser {
 
         Book parsedBook = APIResponseParser.parse(response);
 
-        // Displaying parsed book information using System.out.println
-        System.out.println("Title: " + parsedBook.getTitle());
-        System.out.println("Author: " + parsedBook.getAuthor());
-        System.out.println("Publication Year: " + parsedBook.getPublicationYear());
-        System.out.println("Average Rating: " + parsedBook.getAverageRating());
-        System.out.println("Ratings Count: " + parsedBook.getRatingsCount());
-        System.out.println("Image URL: " + parsedBook.getImageUrl());
+        // Logging parsed book information
+        logger.info("Title: {}", parsedBook.getTitle());
+        logger.info("Author: {}", parsedBook.getAuthor());
+        logger.info("Publication Year: {}", parsedBook.getPublicationYear());
+        logger.info("Average Rating: {}", parsedBook.getAverageRating());
+        logger.info("Ratings Count: {}", parsedBook.getRatingsCount());
+        logger.info("Image URL: {}", parsedBook.getImageUrl());
     }
 }

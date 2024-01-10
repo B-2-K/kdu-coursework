@@ -1,21 +1,21 @@
 package org.calculatesentiment;
-import java.util.Arrays;
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SentimentAnalyzer {
     private static final Logger logger = LoggerFactory.getLogger(SentimentAnalyzer.class);
     public static int[] detectProsAndCons(String review, String[][] featureSet, String[] posOpinionWords, String[] negOpinionWords) {
-        int[] featureOpinions = new int[featureSet.length];
-        int n = featureSet.length;
-        for (int i = 0; i < n; i++) {
+        int noOfFeatures = featureSet.length;
+        int[] featureOpinions = new int[noOfFeatures];
+
+        for (int i = 0; i < noOfFeatures; i++) {
             String[] features = featureSet[i];
             for (String feature : features) {
                 int opinion = getOpinionOnFeature(review, feature, posOpinionWords, negOpinionWords);
                 if (opinion != 0) {
                     featureOpinions[i] = opinion;
                     logger.info("Opinion on feature '{}' is '{}'", feature, opinion);
-                    System.out.println("Opinion on feature '" + feature + "' is '" + opinion + "'");
                     break; // Now move to the next feature set
                 }
             }
@@ -93,6 +93,6 @@ public class SentimentAnalyzer {
         String[] negOpinionWords = {"slow", "bad", "horrible", "awful", "unprofessional", "poor"};
 
         int[] featureOpinions = detectProsAndCons(review, featureSet, posOpinionWords, negOpinionWords);
-        System.out.println("Opinions on Features: " + Arrays.toString(featureOpinions));
+        logger.info("Opinions on Features: {}", featureOpinions);
     }
 }
