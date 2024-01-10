@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 public class StudentUtil {
     private static final Logger logger = LoggerFactory.getLogger(StudentUtil.class);
     public static double[] calculateGPA(int[] studentIdList, char[][] studentsGrades) {
+        // parameter validation
         if (studentIdList == null || studentsGrades == null || studentIdList.length != studentsGrades.length) {
-            // Parameter validation
             return new double[0];
         }
 
@@ -48,7 +48,7 @@ public class StudentUtil {
         double[] gpas = calculateGPA(studentIdList, studentsGrades);
 
         if (gpas == null) {
-            return null;
+            return new int[0];
         }
 
         int count = 0;
@@ -78,11 +78,9 @@ public class StudentUtil {
         // calculating the GPA of the students
         double[] gpas = calculateGPA(studentIdList, studentsGrades);
         System.out.println(Arrays.toString(gpas));
-        logger.info("GPAs: {}", Arrays.toString(gpas));
 
         // filtering the students by GPA
         int[] filteredStudents = getStudentsByGPA(3.2, 3.5, studentIdList, studentsGrades);
         System.out.println(Arrays.toString(filteredStudents));
-        logger.info("Filtered Students: {}", Arrays.toString(filteredStudents));
     }
 }

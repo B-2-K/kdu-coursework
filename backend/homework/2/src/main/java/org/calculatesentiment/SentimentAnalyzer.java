@@ -16,7 +16,7 @@ public class SentimentAnalyzer {
                     featureOpinions[i] = opinion;
                     logger.info("Opinion on feature '{}' is '{}'", feature, opinion);
                     System.out.println("Opinion on feature '" + feature + "' is '" + opinion + "'");
-                    break; // Move to the next feature set
+                    break; // Now move to the next feature set
                 }
             }
         }
@@ -93,7 +93,6 @@ public class SentimentAnalyzer {
         String[] negOpinionWords = {"slow", "bad", "horrible", "awful", "unprofessional", "poor"};
 
         int[] featureOpinions = detectProsAndCons(review, featureSet, posOpinionWords, negOpinionWords);
-        logger.info("Opinions on Features: {}", Arrays.toString(featureOpinions));
         System.out.println("Opinions on Features: " + Arrays.toString(featureOpinions));
     }
 }

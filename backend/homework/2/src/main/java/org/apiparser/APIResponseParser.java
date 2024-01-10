@@ -76,14 +76,6 @@ public class APIResponseParser {
 
         Book parsedBook = APIResponseParser.parse(response);
 
-        // Logging parsed book information
-        logger.info("Title: {}", parsedBook.getTitle());
-        logger.info("Author: {}", parsedBook.getAuthor());
-        logger.info("Publication Year: {}", parsedBook.getPublicationYear());
-        logger.info("Average Rating: {}", parsedBook.getAverageRating());
-        logger.info("Ratings Count: {}", parsedBook.getRatingsCount());
-        logger.info("Image URL: {}", parsedBook.getImageUrl());
-
         // Displaying parsed book information using System.out.println
         System.out.println("Title: " + parsedBook.getTitle());
         System.out.println("Author: " + parsedBook.getAuthor());
