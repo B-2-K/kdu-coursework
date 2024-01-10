@@ -8,7 +8,7 @@ public class StudentUtil {
     public static double[] calculateGPA(int[] studentIdList, char[][] studentsGrades) {
         if (studentIdList == null || studentsGrades == null || studentIdList.length != studentsGrades.length) {
             // Parameter validation
-            return null;
+            return new double[0];
         }
 
         double[] result = new double[studentIdList.length];
@@ -28,6 +28,9 @@ public class StudentUtil {
                     case 'C':
                         totalPoints += 2;
                         break;
+                    default:
+                        logger.error("Enter the valid grade");
+                        break;
                 }
             }
             result[i] = totalPoints / (double) totalCourses;
@@ -39,7 +42,7 @@ public class StudentUtil {
     public static int[] getStudentsByGPA(double lower, double higher, int[] studentIdList, char[][] studentsGrades) {
         if (lower < 0 || higher < 0 || lower > higher || studentIdList == null || studentsGrades == null || studentIdList.length != studentsGrades.length) {
             // Parameter validation
-            return null;
+            return new int[0];
         }
 
         double[] gpas = calculateGPA(studentIdList, studentsGrades);
