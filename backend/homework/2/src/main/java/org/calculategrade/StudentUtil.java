@@ -1,4 +1,4 @@
-package org.calculateGrade;
+package org.calculategrade;
 import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

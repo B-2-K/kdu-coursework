@@ -1,4 +1,4 @@
-package org.apiParser;
+package org.apiparser;
 
 public class Book {
     private String title;
