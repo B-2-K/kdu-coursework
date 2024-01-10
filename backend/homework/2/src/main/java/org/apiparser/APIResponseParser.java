@@ -45,8 +45,7 @@ public class APIResponseParser {
     private static String parse(String response, String startRule, String endRule) {
         int start = response.indexOf(startRule) + startRule.length();
         int end = response.indexOf(endRule, start);
-        String result = response.substring(start, end);
-        return result;
+        return response.substring(start, end);
     }
 
     public static void main(String[] args) {

@@ -61,7 +61,8 @@ public class StudentUtil {
         }
 
         int[] result = new int[count];
-        int index = 0, noOfStudentIdList = studentIdList.length;
+        int index = 0;
+        int noOfStudentIdList = studentIdList.length;
 
         for (int i = 0; i < noOfStudentIdList; i++) {
             if (gpas[i] >= lower && gpas[i] <= higher) {
@@ -79,7 +80,7 @@ public class StudentUtil {
 
         // calculating the GPA of the students
         double[] gpas = calculateGPA(studentIdList, studentsGrades);
-        logger.info("GPAs: {}", Arrays.toString(gpas));
+        logger.info("GPAs: {}", gpas);
 
         // filtering the students by GPA
         int[] filteredStudents = getStudentsByGPA(3.2, 3.5, studentIdList, studentsGrades);
