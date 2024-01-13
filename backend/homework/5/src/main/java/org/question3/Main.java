@@ -7,18 +7,19 @@ public class Main {
 
     public static void main(String[] args){
         ArrayList<Integer> numbers = new ArrayList<>(List.of(5, 10, 30, 80));
-        logger.debug("ArrayList {} :" + numbers);
+        logger.debug("ArrayList {} :", numbers);
         // Here we can also use ExecutorService to crate thread pools.
 
         for (int number : numbers) {
             Thread factorialThread = new Thread(() -> {
                 long factorialResult = calculateFactorial(number);
-                logger.info("Factorial of " + number + " is: " + factorialResult);
+                logger.info("Factorial of {} are: {}", number, factorialResult);
+
             });
 
             Thread factorsThread = new Thread(() -> {
                 String factorsResult = calculateFactors(number);
-                logger.info("Factors of " + number + " are: " + factorsResult);
+                logger.info("Factors of {} are: {}", number, factorsResult);
             });
 
             factorialThread.start();
@@ -47,7 +48,7 @@ public class Main {
 
     private static String calculateFactors(int n) {
         StringBuilder factors = new StringBuilder();
-        ArrayList<Integer> result = new ArrayList<Integer>();
+        ArrayList<Integer> result = new ArrayList<>();
         for (int i = 1; i * i <= n; i++) {
             if (n % i == 0) {
                 result.add(i);
