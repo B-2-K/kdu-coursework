@@ -1,0 +1,26 @@
+package org.question2;
+import org.slf4j.LoggerFactory;
+
+public class MessageReceiver implements Runnable {
+    public static final org.slf4j.Logger logger = LoggerFactory.getLogger(org.question3.Main.class);
+    private MessageQueue msg;
+    private int totalMessages;
+
+    public MessageReceiver(MessageQueue msg, int totalMessages) {
+        this.msg = msg;
+        this.totalMessages = totalMessages;
+    }
+
+    public void run() {
+        int i = 0;
+        while (i < totalMessages) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                logger.error("Error occurred while waiting");
+            }
+            msg.getMsg();
+            i++;
+        }
+    }
+}
