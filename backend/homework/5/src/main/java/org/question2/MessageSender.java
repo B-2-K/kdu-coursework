@@ -2,7 +2,7 @@ package org.question2;
 import org.slf4j.LoggerFactory;
 
 public class MessageSender implements Runnable {
-    public static final org.slf4j.Logger logger = LoggerFactory.getLogger(org.question3.Main.class);
+    public static final org.slf4j.Logger logger = LoggerFactory.getLogger(MessageSender.class);
     private MessageQueue msg;
     private int totalMessages;
 
@@ -17,6 +17,7 @@ public class MessageSender implements Runnable {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 logger.error("Error occurred while waiting");
             }
             i++;

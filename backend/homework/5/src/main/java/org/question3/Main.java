@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 public class Main {
     public static final org.slf4j.Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         ArrayList<Integer> numbers = new ArrayList<>(List.of(5, 10, 30, 80));
         logger.debug("ArrayList {} :" + numbers);
         // Here we can also use ExecutorService to crate thread pools.
@@ -28,6 +28,7 @@ public class Main {
                 factorialThread.join();
                 factorsThread.join();
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 e.printStackTrace();
             }
         }

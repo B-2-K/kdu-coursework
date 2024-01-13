@@ -1,7 +1,7 @@
 package org.question2;
 import org.slf4j.LoggerFactory;
 public class MessageQueue {
-    public static final org.slf4j.Logger logger = LoggerFactory.getLogger(org.question3.Main.class);
+    public static final org.slf4j.Logger logger = LoggerFactory.getLogger(MessageQueue.class);
     private String msg;
     private boolean flag = false;
     private int totalMessages;
@@ -16,14 +16,15 @@ public class MessageQueue {
             try {
                 wait();
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 logger.error("Error occurred while waiting");
             }
         }
 
         this.msg = msg;
-        logger.info("Sent: " + msg);
+        logger.info("Sent : {}", msg);
         flag = true;
-        notify();
+        notifyAll();
     }
 
     public synchronized void getMsg() {
@@ -31,11 +32,12 @@ public class MessageQueue {
             try {
                 wait();
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 logger.error("Error occurred while waiting");
             }
         }
 
-        logger.info("Received: " + msg);
+        logger.info("Received : {}", msg);
         receivedMessages++;
 
         if (receivedMessages == totalMessages) {
