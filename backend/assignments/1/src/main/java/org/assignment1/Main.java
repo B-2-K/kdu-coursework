@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -16,10 +15,10 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(Main.class);
-    public static HashMap<String, Double> traderBalance = ExecuteTransaction.traderBalance;
-    public static HashMap<String, Long> traderPortfolio = ExecuteTransaction.traderPortfolio;
-    public static HashMap<String, Trader> traderHashMap = CsvReader.traderHashMap;
-    public static HashMap<String, Coin> coinHashMap = CsvReader.coinHashMap;
+    public static Map<String, Double> traderBalance = ExecuteTransaction.traderBalance;
+    public static Map<String, Long> traderPortfolio = ExecuteTransaction.traderPortfolio;
+    public static Map<String, Trader> traderHashMap = CsvReader.traderHashMap;
+    public static Map<String, Coin> coinHashMap = CsvReader.coinHashMap;
 
     public static void main(String[] args) {
         ExecutorService executorService = null;
@@ -84,6 +83,7 @@ public class Main {
             long quantity = data.getQuantity();
             long volume = data.getVolume();
             double price = data.getPrice();
+            getBlockHash();
             // Pass the CountDownLatch to ExecuteTransaction
             Runnable task = new ExecuteTransaction(transaction, latch, coin, walletAddress, quantity, volume, price);
             executorService.submit(task);
@@ -91,8 +91,9 @@ public class Main {
     }
 
     public static void displayCoinDetails(){
+        logger.info("Coin Details :");
         coinHashMap.forEach((key, value) -> {
-            logger.info("Coin Name : {}, Coin Symbol : {}, Coin Price : {}, Coin Volume : {}", value.getName(), value.getCode(), value.getPrice(), value.getVolume());
+            logger.info("Coin Name : {}, Coin Symbol : {}, Coin Price : {}, Coin Volume : {}", value.getName(), value.getSymbol(), value.getPrice(), value.getVolume());
         });
     }
 
@@ -102,7 +103,10 @@ public class Main {
                 .limit(5)
                 .collect(Collectors.toList());
 
-        logger.info("Top 5 Coins : {}", topCoins);
+        logger.info("Top 5 Coins :");
+        for(Coin coin : topCoins) {
+            logger.info("Coin Name : {}, Coin Symbol : {}, Coin Price : {}, Coin Volume : {}", coin.getName(), coin.getSymbol(), coin.getPrice(), coin.getVolume());
+        }
     }
 
     public static void displayTraderPortfolio() {
@@ -125,7 +129,7 @@ public class Main {
             logger.info("Trader Coins : ");
 
             for (Coin curr : result) {
-                logger.info("Coin Name : {}, Coin Symbol : {}, Coin Price : {}, Coin Volume : {}", curr.getName(), curr.getCode(), curr.getPrice(), curr.getVolume());
+                logger.info("Coin Name : {}, Coin Symbol : {}, Coin Price : {}, Coin Volume : {}", curr.getName(), curr.getSymbol(), curr.getPrice(), curr.getVolume());
             }
         });
     }
@@ -137,7 +141,12 @@ public class Main {
             .map(Map.Entry::getKey)
             .collect(Collectors.toList());
 
-        logger.info("Top 5 Traders : {}", topTraders);
+        logger.info("Top 5 Traders : ");
+
+        for(int i = 0;i < topTraders.size();i++) {
+            Trader currTrader = traderHashMap.get(topTraders.get(i));
+            logger.info("First Name: {}, Last Name : {}, Phone Number : {}, Wallet Address : {}, Balance : {}", currTrader.getFirstName(), currTrader.getLastName(), currTrader.getPhoneNumber(), currTrader.getWalletAddress(), traderBalance.get(topTraders.get(i)));
+        }
     }
 
     public static void displayBottomTraders() {
@@ -147,7 +156,30 @@ public class Main {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
 
-        logger.info("Bottom 5 Traders : {}", bottomTraders);
+        logger.info("Bottom 5 Traders : ");
+        for(int i = 0;i < bottomTraders.size();i++) {
+            Trader currTrader = traderHashMap.get(bottomTraders.get(i));
+            logger.info("First Name: {}, Last Name : {}, Phone Number : {}, Wallet Address : {}, Balance : {}", currTrader.getFirstName(), currTrader.getLastName(), currTrader.getPhoneNumber(), currTrader.getWalletAddress(), traderBalance.get(bottomTraders.get(i)));
+        }
+    }
+
+    private static String getBlockHash() {
+
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder transactionHash = new StringBuilder();
+        Random rnd = new Random();
+
+        for (double i = 0; i < 199999999; i++) {
+            i = i;
+        }
+
+        while (transactionHash.length() < 128) {
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            transactionHash.append(SALTCHARS.charAt(index));
+        }
+
+        String hashCode = transactionHash.toString();
+        return "0x" + hashCode.toLowerCase();
     }
 }
 

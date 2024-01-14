@@ -20,7 +20,7 @@ public class Coin {
     }
 
     // Get Code
-    public String getCode() {
+    public String getSymbol() {
         return this.symbol;
     }
 

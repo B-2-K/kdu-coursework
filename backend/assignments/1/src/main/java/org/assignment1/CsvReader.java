@@ -8,8 +8,8 @@ import java.util.*;
 
 public class CsvReader {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(CSVReader.class);
-    public static HashMap<String, Coin> coinHashMap = new HashMap<String, Coin>();
-    public static HashMap<String, Trader> traderHashMap = new HashMap<String, Trader>();
+    public static final Map<String, Coin> coinHashMap = new HashMap<>();
+    public static final Map<String, Trader> traderHashMap = new HashMap<>();
 
     public static void loadCoins(String filePath) throws IOException {
 
@@ -28,7 +28,7 @@ public class CsvReader {
                 coinHashMap.put(symbol, coin);
             }
         } catch (Exception e) {
-            logger.error("Error while reading : {}", e);
+            logger.error("Error while reading the coins data : ", e);
         }
     }
 
@@ -49,7 +49,7 @@ public class CsvReader {
                 traderHashMap.put(walletAddress, trader);
             }
         } catch (Exception e) {
-            logger.error("Error while reading : {}", e);
+            logger.error("Error while reading the traders data : ", e);
         }
     }
 }
