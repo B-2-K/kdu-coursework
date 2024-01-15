@@ -10,7 +10,7 @@ public class ExecuteTransaction implements Runnable {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ExecuteTransaction.class);
     public static final Map<String, Double> traderBalance = new HashMap<>();
     public static final Map<String, Long> traderPortfolio = new HashMap<>();
-    public static final Map<String, Coin> coinHashMap = CsvReader.coinHashMap;
+    public static final Map<String, Coins> coinHashMap = CsvReader.coinHashMap;
     private final Transaction transaction;
     private final CountDownLatch latch;
     private final String coinName;
@@ -57,7 +57,7 @@ public class ExecuteTransaction implements Runnable {
     }
 
     private synchronized void executeBuyTransaction() {
-        Coin coin = coinHashMap.get(coinName);
+        Coins coin = coinHashMap.get(coinName);
         long coinVolume = coin.getVolume();
 
         while (coinVolume < quantity) {
@@ -97,7 +97,7 @@ public class ExecuteTransaction implements Runnable {
 
 
     private synchronized void executeSellTransaction() {
-        Coin coin = coinHashMap.get(coinName);
+        Coins coin = coinHashMap.get(coinName);
         String key = walletAddress + coin.getSymbol();
         long coinVolume = coin.getVolume();
         boolean isFound = traderPortfolio.containsKey(key);
@@ -121,14 +121,14 @@ public class ExecuteTransaction implements Runnable {
     }
 
     private synchronized void handleUpdatePriceTransaction() {
-        Coin coin = coinHashMap.get(coinName);
+        Coins coin = coinHashMap.get(coinName);
         coin.setPrice(price);
         logger.info("Price Updated successfully.");
     }
 
     private synchronized void handleAddVolumeTransaction() {
         // Find the corresponding coin
-        Coin coin = coinHashMap.get(coinName);
+        Coins coin = coinHashMap.get(coinName);
         coin.setVolume(coin.getVolume() + volume);
         logger.info("Volume Added successfully.");
     }

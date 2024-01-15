@@ -18,7 +18,7 @@ public class Main {
     public static Map<String, Double> traderBalance = ExecuteTransaction.traderBalance;
     public static Map<String, Long> traderPortfolio = ExecuteTransaction.traderPortfolio;
     public static Map<String, Trader> traderHashMap = CsvReader.traderHashMap;
-    public static Map<String, Coin> coinHashMap = CsvReader.coinHashMap;
+    public static Map<String, Coins> coinHashMap = CsvReader.coinHashMap;
 
     public static void main(String[] args) {
         ExecutorService executorService = null;
@@ -98,13 +98,13 @@ public class Main {
     }
 
     public static void displayTopCoins() {
-        List<Coin> topCoins = coinHashMap.values().stream()
-                .sorted(Comparator.comparingDouble(Coin::getPrice).reversed())
+        List<Coins> topCoins = coinHashMap.values().stream()
+                .sorted(Comparator.comparingDouble(Coins::getPrice).reversed())
                 .limit(5)
                 .collect(Collectors.toList());
 
         logger.info("Top 5 Coins :");
-        for(Coin coin : topCoins) {
+        for(Coins coin : topCoins) {
             logger.info("Coin Name : {}, Coin Symbol : {}, Coin Price : {}, Coin Volume : {}", coin.getName(), coin.getSymbol(), coin.getPrice(), coin.getVolume());
         }
     }
@@ -114,21 +114,21 @@ public class Main {
             logger.info("Trader Details : ");
             Trader currTrader = traderHashMap.get(traderAddress);
             logger.info("First Name: {}, Last Name : {}, Phone Number : {}, Wallet Address : {}", currTrader.getFirstName(), currTrader.getLastName(), currTrader.getPhoneNumber(), currTrader.getWalletAddress());
-            List<Coin> result = new ArrayList<>();
+            List<Coins> result = new ArrayList<>();
             traderPortfolio.forEach((key, value) -> {
                 // first 34 characters of the key is the wallet address and rest is the coin code
                 String address = key.substring(0, 34);
                 String coinCode = key.substring(34);
 
                 if (address.equals(traderAddress)) {
-                    Coin curr = coinHashMap.get(coinCode);
+                    Coins curr = coinHashMap.get(coinCode);
                     result.add(curr);
                 }
             });
 
             logger.info("Trader Coins : ");
 
-            for (Coin curr : result) {
+            for (Coins curr : result) {
                 logger.info("Coin Name : {}, Coin Symbol : {}, Coin Price : {}, Coin Volume : {}", curr.getName(), curr.getSymbol(), curr.getPrice(), curr.getVolume());
             }
         });

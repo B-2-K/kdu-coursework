@@ -8,7 +8,7 @@ import java.util.*;
 
 public class CsvReader {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(CSVReader.class);
-    public static final Map<String, Coin> coinHashMap = new HashMap<>();
+    public static final Map<String, Coins> coinHashMap = new HashMap<>();
     public static final Map<String, Trader> traderHashMap = new HashMap<>();
 
     public static void loadCoins(String filePath) throws IOException {
@@ -24,7 +24,7 @@ public class CsvReader {
                 double price = Double.parseDouble(line[4].trim());
                 long volume = Long.parseLong(line[5].trim());
 
-                Coin coin = new Coin(name, symbol, price, volume);
+                Coins coin = new Coins(name, symbol, price, volume);
                 coinHashMap.put(symbol, coin);
             }
         } catch (Exception e) {

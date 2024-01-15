@@ -1,13 +1,13 @@
 package org.assignment1;
 
-public class Coin {
+public class Coins {
     private String name;
     private String symbol;
     private double price;
     private long volume;
 
     // Constructors
-    public Coin(String name, String symbol, double price, long volume) {
+    public Coins(String name, String symbol, double price, long volume) {
         this.name = name;
         this.symbol = symbol;
         this.price = price;
