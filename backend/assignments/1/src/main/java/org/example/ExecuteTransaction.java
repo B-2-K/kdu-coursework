@@ -1,4 +1,4 @@
-package org.assignment1;
+package org.example;
 
 import org.slf4j.LoggerFactory;
 import java.util.HashMap;

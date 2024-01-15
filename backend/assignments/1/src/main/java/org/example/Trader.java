@@ -1,4 +1,4 @@
-package org.assignment1;
+package org.example;
 
 public class Trader {
     private String firstName;

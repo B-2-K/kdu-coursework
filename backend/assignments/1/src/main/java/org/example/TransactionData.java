@@ -1,4 +1,4 @@
-package org.assignment1;
+package org.example;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TransactionData {
