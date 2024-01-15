@@ -1,165 +1,169 @@
 package org.example;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.LoggerFactory;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.LoggerFactory;
 
+import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 public class ExecuteTransaction implements Runnable {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ExecuteTransaction.class);
-    public static final Map<String, Double> traderBalance = new HashMap<>();
-    public static final Map<String, Long> traderPortfolio = new HashMap<>();
-    public static final Map<String, Coins> coinHashMap = CsvReader.coinHashMap;
-    private static String coinName;
-    private static String walletAddress;
-    private static long quantity;
-    private static long volume;
-    private static double price;
-
-    JsonNode transactionNode;
-    CountDownLatch latch;
-    public ExecuteTransaction() {
-        logger.error("Testing");
+    private JsonNode jsonTransaction;
+    private CountDownLatch latch;
+    public static final TraderDetails traders = TraderDetails.getAccessTraders();
+    public static final CoinsDetails coins = CoinsDetails.getAccessCoins();
+    Random rnd;
+    public ExecuteTransaction(){
     }
-    public ExecuteTransaction(JsonNode transactionNode, CountDownLatch latch) {
-        this.transactionNode = transactionNode;
+    public ExecuteTransaction(JsonNode transactions, CountDownLatch latch) {
+        this.jsonTransaction = transactions;
         this.latch = latch;
     }
-    @Override
-    public void run() {
-        JsonNode dataNode = transactionNode.get("data");
-        TransactionData data = new ObjectMapper().convertValue(dataNode, TransactionData.class);
-        if(data == null) {
-            logger.error("Invalid Transaction Data");
-            return;
-        }
-        Transaction transaction = new Transaction();
-        transaction.setType(TransactionType.valueOf(transactionNode.get("type").asText()));
-        transaction.setData(data);
 
+    @Override
+    public synchronized void run() {
         try {
-            switch (transaction.getType()) {
-                case BUY:
-                    executeBuyTransaction(data);
+            getBlockHash();
+            JsonNode data = jsonTransaction.get("data");
+
+            if(data == null){
+                logger.info("data not found in transaction");
+                return;
+            }
+
+            String type =  jsonTransaction.get("type").asText();
+            switch (type) {
+                case "BUY":
+                    processBuyTransaction(data);
                     break;
-                case SELL:
-                    executeSellTransaction(data);
+                case "SELL":
+                    processSellTransaction(data);
                     break;
-                case UPDATE_PRICE:
-                    handleUpdatePriceTransaction(data);
+                case "ADD_VOLUME":
+                    addVolume(data);
                     break;
-                case ADD_VOLUME:
-                    handleAddVolumeTransaction(data);
+                case "UPDATE_PRICE":
+                    updatePrice(data);
                     break;
                 default:
-                    logger.error("Unknown Transaction");
+                    logger.error("Enter Valid Input : ");
                     break;
             }
-            // Ensure to call latch.countDown() after the transaction is processed
+        } finally {
             latch.countDown();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-    }
 
-    private synchronized void executeBuyTransaction(TransactionData data) {
-        coinName = data.getCoin();
-        quantity = data.getQuantity();
-        Coins coin = coinHashMap.get(coinName);
-        if(coin == null){
-            logger.error("Invalid coin name");
+    }
+    private void processBuyTransaction(JsonNode data) {
+        String symbol = data.get("coin").asText();
+        Coins coin = coins.getCoins(symbol);
+        long quantity = data.get("quantity").asLong();
+        String walletAddress = data.get("wallet_address").asText();
+        Trader trader = traders.getTrader(walletAddress);
+        if (trader == null){
+            logger.info("not a valid org.example.Trader");
             return;
         }
-        long coinVolume = coin.getVolume();
-
-        while (coinVolume < quantity) {
-            logger.info("Insufficient coins available for the buy transaction. Waiting for more coins...");
-
-            try {
-                // Sleep for a certain period before checking again
-                TimeUnit.SECONDS.sleep(1); // Adjust the sleep duration as needed
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                logger.error("Thread interrupted while waiting for more coins.", e);
+        long supply = coin.getCirculationSupply();
+        double price  = coin.getPrice();
+        synchronized (coin){
+            while (quantity > supply){
+                try{
+                    coin.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+                supply  = coin.getCirculationSupply();
             }
-
-            coinVolume = coin.getVolume();
+            // have enough to buy
+            coin.setCirculationSupply(supply - quantity);
+            trader.buyCoin(symbol,quantity,price);
+            TraderDetails.traders.put(walletAddress,trader);
+            CoinsDetails.coins.put(symbol,coin);
+            // notifying coin buy was success
+            coin.notifyAll();
         }
-
-
-        double totalCost = quantity * coin.getPrice();
-
-        long currVolume = coinVolume - quantity;
-        coin.setVolume(currVolume);
-
-        // Add coin to the trader portfolio
-        String key = walletAddress + coin.getCoinSymbol();
-        boolean isFound = traderPortfolio.containsKey(key);
-        if (isFound) {
-            double currBalance = traderBalance.get(walletAddress) - totalCost;
-            traderPortfolio.put(key, traderPortfolio.get(key) + quantity);
-            traderBalance.put(walletAddress, -currBalance);
-        } else {
-            traderPortfolio.put(key, quantity);
-            traderBalance.put(walletAddress, -totalCost);
+    }
+    private void processSellTransaction(JsonNode data) {
+        String symbol = data.get("coin").asText();
+        Coins coin = coins.getCoins(symbol);
+        if(coin == null)
+        {
+            logger.info("Coin not found");
+            return;
         }
-
-        logger.info("Buy transaction executed successfully {}", coin.getCoinSymbol() + " " + quantity);
+        long quantity = data.get("quantity").asLong();
+        String walletAddress = data.get("wallet_address").asText();
+        Trader trader = traders.getTrader(walletAddress);
+        if (trader == null){
+            logger.info("not a valid Trader");
+            return;
+        }
+        long supply;
+        double price  = coin.getPrice();
+        synchronized (trader){
+            supply = trader.getCoinToVolume().getOrDefault(symbol,0L);
+        }
+        synchronized (coin){
+            while (quantity > supply){
+                try{
+                    // volume up or sell
+                    trader.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+                supply  = trader.getCoinToVolume().getOrDefault(symbol,0L);
+            }
+            // have enough to sell
+            trader.sellCoin(symbol,quantity,price);
+            coin.setCirculationSupply(coin.getCirculationSupply() + quantity);
+            TraderDetails.traders.put(walletAddress,trader);
+            CoinsDetails.coins.put(symbol,coin);
+            // notifying trader's sell has been done
+            trader.notifyAll();
+        }
+    }
+    private void addVolume(JsonNode data) {
+        String symbol = data.get("coin").asText();
+        Coins coin = coins.getCoins(symbol);
+        if(coin == null)
+        {
+            logger.info("Coin not found");
+            return;
+        }
+        long volume = data.get("volume").asLong();
+        synchronized (coin){
+            coin.setCirculationSupply(coin.getCirculationSupply() + volume);
+            CoinsDetails.coins.put(symbol,coin);
+            coin.notifyAll();
+        }
+    }
+    private void updatePrice(JsonNode data) {
+        String symbol = data.get("coin").asText();
+        Coins coin = coins.getCoins(symbol);
+        if(coin == null)
+        {
+            logger.info("Coin not found");
+            return;
+        }
+        double price = data.get("price").asDouble();
+        synchronized (coin){
+            coin.setPrice(price);
+            CoinsDetails.coins.put(symbol,coin);
+        }
     }
 
-
-    private synchronized void executeSellTransaction(TransactionData data) {
-        coinName = data.getCoin();
-        Coins coin = coinHashMap.get(coinName);
-        quantity = data.getQuantity();
-        walletAddress = data.getWalletAddress();
-        String key = walletAddress + coin.getCoinSymbol();
-        long coinVolume = coin.getVolume();
-        boolean isFound = traderPortfolio.containsKey(key);
-        if(isFound == false) {
-            logger.info("Insufficient quantity of coins in trader's account");
-            return;
+    private String getBlockHash() {
+        String saltChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder transactionHash = new StringBuilder();
+        rnd = new Random();
+        // Introducing delay mimicking complex calculation being performed.
+        for (double i = 0; i < 199999999; i++) {
+            i = i;
         }
-        long currQuantity = traderPortfolio.get(key);
-        if(currQuantity < quantity){
-            logger.info("Insufficient quantity of coins in trader's account");
-            return;
+        while (transactionHash.length() < 128) {
+            int index = (int) (rnd.nextFloat() * saltChars.length());
+            transactionHash.append(saltChars.charAt(index));
         }
-
-        long currVolume = coinVolume + quantity;
-        coin.setVolume(currVolume);
-        double totalCost = quantity * coin.getPrice();
-        traderBalance.put(walletAddress, traderBalance.get(walletAddress) + totalCost);
-        currQuantity -= quantity;
-        traderPortfolio.put(key, currQuantity);
-        logger.info("Sell transaction executed successfully.");
-    }
-
-    private synchronized void handleUpdatePriceTransaction(TransactionData data) {
-        coinName = data.getCoin();
-        price = data.getPrice();
-        Coins coin = coinHashMap.get(coinName);
-        if(coin == null){
-            logger.error("Invalid coin name");
-            return;
-        }
-        coin.setPrice(price);
-        logger.info("Price Updated successfully.");
-    }
-
-    private synchronized void handleAddVolumeTransaction(TransactionData data) {
-        // Find the corresponding coin
-        coinName = data.getCoin();
-        volume = data.getVolume();
-        Coins coin = coinHashMap.get(coinName);
-        if(coin == null){
-            logger.error("Invalid coin name");
-            return;
-        }
-        coin.setVolume(coin.getVolume() + volume);
-        logger.info("Volume Added successfully.");
+        String hashCode = transactionHash.toString();
+        return "0x" + hashCode.toLowerCase();
     }
 }
