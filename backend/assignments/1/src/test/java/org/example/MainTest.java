@@ -35,10 +35,10 @@ public class MainTest {
         coinNameMap = new HashMap<>();
         coinCodeMap = new HashMap<>();
 
-        coinOne = new Coins(1, "Bitcoin", "BTC", 10000.0, 100L);
-        Coins coinTwo = new Coins(2, "Ethereum", "ETH", 5000.0, 50L);
-        Coins coinThree = new Coins(3, "Cardano", "ADA", 2000.0, 30L);
-        Coins coinFour = new Coins(3, "Solana", "SOL", 1000.0, 150L);
+        coinOne = new Coins(1, "Bitcoin", "BTC", 10000.00, 100L);
+        Coins coinTwo = new Coins(2, "Ethereum", "ETH", 5000.00, 50L);
+        Coins coinThree = new Coins(3, "Cardano", "ADA", 2000.00, 30L);
+        Coins coinFour = new Coins(3, "Solana", "SOL", 1000.00, 150L);
 
         coins.add(coinOne);
         coins.add(coinTwo);
@@ -57,8 +57,8 @@ public class MainTest {
      * This test ensures that the `parseCSV` method correctly reads and parses the content of a sample CSV file,
      * comparing the expected data with the actual parsed data, covering both coin and trader CSV files.
      *
-     * @throws IOException If an I/O error occurs during the test.
-     * @see Main#parseCSV(Path)
+//     * @throws IOException If an I/O error occurs during the test.
+//     * @see Main#CsvReader(Path)
      */
     @Test
     public void testParseCSV() throws IOException {
@@ -71,7 +71,7 @@ public class MainTest {
         expectedCoins.add(new String[]{"3", "4", "BNB", "BNB", "351.39", "165116761"});
         expectedCoins.add(new String[]{"4", "5", "USD Coin", "USDC", "1.00", "47861732704"});
         expectedCoins.add(new String[]{"5", "6", "Cardano", "ADA", "1.02", "33550574442"});
-        ArrayList<String[]> actual = Main.parseCSV(coinCsvPath);
+        ArrayList<String[]> actual = CsvReader.loadCoins(coinCsvPath.toString());
 
         Assertions.assertEquals(expectedCoins.size(), actual.size());
         for (int i = 0; i < expectedCoins.size(); i++) {
@@ -89,7 +89,7 @@ public class MainTest {
         expectedTraders.add(new String[]{"3", "Lenna", "Paprocki", "907-385-4412", "0xab190b6af9471e4c8e717418e940423c"});
         expectedTraders.add(new String[]{"4", "Donette", "Foller", "513-570-1893", "0xbe3887c02d3d33e16ba49b3607c50e3a"});
         expectedTraders.add(new String[]{"5", "Simona", "Morasca", "419-503-2484", "0xbd670dbca4260f5f1403b555bbe2dd9e"});
-        ArrayList<String[]> actualTraders = Main.parseCSV(traderCsvPath);
+        ArrayList<String[]> actualTraders = CsvReader.loadTraders(traderCsvPath.toString());
 
         Assertions.assertEquals(expectedTraders.size(), actualTraders.size());
 
@@ -124,7 +124,7 @@ public class MainTest {
 
             new Main();
             Main.executeTransactions(transactionArray, latch);
-        } catch (IOException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             fail();
         }
@@ -162,7 +162,7 @@ public class MainTest {
 
             new Main();
             Main.executeTransactions(transactionArray, latch);
-        } catch (IOException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             fail();
         }
@@ -199,7 +199,7 @@ public class MainTest {
             transactionArray = Main.parseJsonFile("src/test/resources/test_transaction_3.json");
 
             Main.executeTransactions(transactionArray, latch);
-        } catch (IOException e) {
+        } catch (Exception e) {
             fail();
         }
 
@@ -235,7 +235,7 @@ public class MainTest {
             transactionArray = Main.parseJsonFile("src/test/resources/test_transaction_4.json");
 
             Main.executeTransactions(transactionArray, latch);
-        } catch (IOException e) {
+        } catch (Exception e) {
             fail();
         }
 

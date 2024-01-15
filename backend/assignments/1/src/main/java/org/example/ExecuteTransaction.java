@@ -1,49 +1,58 @@
 package org.example;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class ExecuteTransaction implements Runnable {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ExecuteTransaction.class);
     public static final Map<String, Double> traderBalance = new HashMap<>();
     public static final Map<String, Long> traderPortfolio = new HashMap<>();
     public static final Map<String, Coins> coinHashMap = CsvReader.coinHashMap;
-    private final Transaction transaction;
-    private final CountDownLatch latch;
-    private final String coinName;
-    private final String walletAddress;
-    private final long quantity;
-    private final long volume;
-    private final double price;
+    private static String coinName;
+    private static String walletAddress;
+    private static long quantity;
+    private static long volume;
+    private static double price;
 
-    public ExecuteTransaction(Transaction transaction, CountDownLatch latch, String coinName, String walletAddress, long quantity, long volume, double price) {
-        this.transaction = transaction;
-        this.latch = latch;
-        this.coinName = coinName;
-        this.walletAddress = walletAddress;
-        this.quantity = quantity;
-        this.volume = volume;
-        this.price = price;
+    JsonNode transactionNode;
+    CountDownLatch latch;
+    public ExecuteTransaction() {
+        logger.error("Testing");
     }
-
+    public ExecuteTransaction(JsonNode transactionNode, CountDownLatch latch) {
+        this.transactionNode = transactionNode;
+        this.latch = latch;
+    }
     @Override
     public void run() {
+        JsonNode dataNode = transactionNode.get("data");
+        TransactionData data = new ObjectMapper().convertValue(dataNode, TransactionData.class);
+        if(data == null) {
+            logger.error("Invalid Transaction Data");
+            return;
+        }
+        Transaction transaction = new Transaction();
+        transaction.setType(TransactionType.valueOf(transactionNode.get("type").asText()));
+        transaction.setData(data);
+
         try {
             switch (transaction.getType()) {
                 case BUY:
-                    executeBuyTransaction();
+                    executeBuyTransaction(data);
                     break;
                 case SELL:
-                    executeSellTransaction();
+                    executeSellTransaction(data);
                     break;
                 case UPDATE_PRICE:
-                    handleUpdatePriceTransaction();
+                    handleUpdatePriceTransaction(data);
                     break;
                 case ADD_VOLUME:
-                    handleAddVolumeTransaction();
+                    handleAddVolumeTransaction(data);
                     break;
                 default:
                     logger.error("Unknown Transaction");
@@ -56,8 +65,14 @@ public class ExecuteTransaction implements Runnable {
         }
     }
 
-    private synchronized void executeBuyTransaction() {
+    private synchronized void executeBuyTransaction(TransactionData data) {
+        coinName = data.getCoin();
+        quantity = data.getQuantity();
         Coins coin = coinHashMap.get(coinName);
+        if(coin == null){
+            logger.error("Invalid coin name");
+            return;
+        }
         long coinVolume = coin.getVolume();
 
         while (coinVolume < quantity) {
@@ -81,7 +96,7 @@ public class ExecuteTransaction implements Runnable {
         coin.setVolume(currVolume);
 
         // Add coin to the trader portfolio
-        String key = walletAddress + coin.getSymbol();
+        String key = walletAddress + coin.getCoinSymbol();
         boolean isFound = traderPortfolio.containsKey(key);
         if (isFound) {
             double currBalance = traderBalance.get(walletAddress) - totalCost;
@@ -92,13 +107,16 @@ public class ExecuteTransaction implements Runnable {
             traderBalance.put(walletAddress, -totalCost);
         }
 
-        logger.info("Buy transaction executed successfully {}", coin.getSymbol() + " " + quantity);
+        logger.info("Buy transaction executed successfully {}", coin.getCoinSymbol() + " " + quantity);
     }
 
 
-    private synchronized void executeSellTransaction() {
+    private synchronized void executeSellTransaction(TransactionData data) {
+        coinName = data.getCoin();
         Coins coin = coinHashMap.get(coinName);
-        String key = walletAddress + coin.getSymbol();
+        quantity = data.getQuantity();
+        walletAddress = data.getWalletAddress();
+        String key = walletAddress + coin.getCoinSymbol();
         long coinVolume = coin.getVolume();
         boolean isFound = traderPortfolio.containsKey(key);
         if(isFound == false) {
@@ -120,15 +138,27 @@ public class ExecuteTransaction implements Runnable {
         logger.info("Sell transaction executed successfully.");
     }
 
-    private synchronized void handleUpdatePriceTransaction() {
+    private synchronized void handleUpdatePriceTransaction(TransactionData data) {
+        coinName = data.getCoin();
+        price = data.getPrice();
         Coins coin = coinHashMap.get(coinName);
+        if(coin == null){
+            logger.error("Invalid coin name");
+            return;
+        }
         coin.setPrice(price);
         logger.info("Price Updated successfully.");
     }
 
-    private synchronized void handleAddVolumeTransaction() {
+    private synchronized void handleAddVolumeTransaction(TransactionData data) {
         // Find the corresponding coin
+        coinName = data.getCoin();
+        volume = data.getVolume();
         Coins coin = coinHashMap.get(coinName);
+        if(coin == null){
+            logger.error("Invalid coin name");
+            return;
+        }
         coin.setVolume(coin.getVolume() + volume);
         logger.info("Volume Added successfully.");
     }

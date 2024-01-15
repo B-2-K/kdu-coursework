@@ -1,13 +1,15 @@
 package org.example;
 
 public class Coins {
+    private int rank;
     private String name;
     private String symbol;
     private double price;
     private long volume;
 
     // Constructors
-    public Coins(String name, String symbol, double price, long volume) {
+    public Coins(int rank, String name, String symbol, double price, long volume) {
+        this.rank = rank;
         this.name = name;
         this.symbol = symbol;
         this.price = price;
@@ -15,12 +17,12 @@ public class Coins {
     }
 
     // Get Name
-    public String getName() {
+    public String getCoinName() {
         return this.name;
     }
 
     // Get Code
-    public String getSymbol() {
+    public String getCoinSymbol() {
         return this.symbol;
     }
 

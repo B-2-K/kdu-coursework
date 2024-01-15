@@ -3,11 +3,9 @@ package org.example;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.slf4j.LoggerFactory;
@@ -19,6 +17,7 @@ public class Main {
     public static Map<String, Long> traderPortfolio = ExecuteTransaction.traderPortfolio;
     public static Map<String, Trader> traderHashMap = CsvReader.traderHashMap;
     public static Map<String, Coins> coinHashMap = CsvReader.coinHashMap;
+//    public static JsonNode transactions;
 
     public static void main(String[] args) {
         ExecutorService executorService = null;
@@ -28,19 +27,8 @@ public class Main {
             CsvReader.loadTraders("src/main/resources/traders.csv");
 
             // Load transactions from JSON file
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode transactions = objectMapper.readTree(new File("src/main/resources/test_transaction.json"));
-            
-            // Create a thread pool for processing transactions
-            int threadPoolSize = transactions.size();
-            executorService = Executors.newFixedThreadPool(threadPoolSize);
-            CountDownLatch latch = new CountDownLatch(transactions.size());
-
-            // Execute transactions
-            executeTransactions(transactions, executorService, latch);
-
-            // Wait for all transactions to complete
-            latch.await();
+            JsonNode transaction = parseJsonFile("src/main/resources/test_transaction.json");
+            executeTransactions(transaction, new CountDownLatch(transaction.size()));
 
             // Perform additional data querying or display results as needed
             displayCoinDetails();
@@ -48,7 +36,7 @@ public class Main {
             displayTraderPortfolio();
             displayTopTraders();
             displayBottomTraders();
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             // Shutdown the executor to release resources
@@ -69,31 +57,30 @@ public class Main {
         }
     }
 
-    private static void executeTransactions(JsonNode jsonTransactions, ExecutorService executorService, CountDownLatch latch) {
-        
-        for (JsonNode transactionNode : jsonTransactions) {
-            JsonNode dataNode = transactionNode.get("data");
-            TransactionData data = new ObjectMapper().convertValue(dataNode, TransactionData.class);
+    public static JsonNode parseJsonFile(String file) {
+        JsonNode jsonNode = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            File from = new File(file);
+            jsonNode = mapper.readTree(from);
+        } catch (Exception e) {
+            logger.error(String.valueOf(e));
+        }
+        return jsonNode;
+    }
 
-            Transaction transaction = new Transaction();
-            transaction.setType(TransactionType.valueOf(transactionNode.get("type").asText()));
-            transaction.setData(data);
-            String coin = data.getCoin();
-            String walletAddress = data.getWalletAddress();
-            long quantity = data.getQuantity();
-            long volume = data.getVolume();
-            double price = data.getPrice();
+    public static void executeTransactions(JsonNode jsonNode, CountDownLatch latch) {
+        for (JsonNode transaction : jsonNode) {
+            ExecuteTransaction executeTransaction = new ExecuteTransaction(transaction, latch);
+            executeTransaction.run();
             getBlockHash();
-            // Pass the CountDownLatch to ExecuteTransaction
-            Runnable task = new ExecuteTransaction(transaction, latch, coin, walletAddress, quantity, volume, price);
-            executorService.submit(task);
         }
     }
 
     public static void displayCoinDetails(){
         logger.info("Coin Details :");
         coinHashMap.forEach((key, value) -> {
-            logger.info("Coin Name : {}, Coin Symbol : {}, Coin Price : {}, Coin Volume : {}", value.getName(), value.getSymbol(), value.getPrice(), value.getVolume());
+            logger.info("Coin Name : {}, Coin Symbol : {}, Coin Price : {}, Coin Volume : {}", value.getCoinName(), value.getCoinSymbol(), value.getPrice(), value.getVolume());
         });
     }
 
@@ -105,7 +92,7 @@ public class Main {
 
         logger.info("Top 5 Coins :");
         for(Coins coin : topCoins) {
-            logger.info("Coin Name : {}, Coin Symbol : {}, Coin Price : {}, Coin Volume : {}", coin.getName(), coin.getSymbol(), coin.getPrice(), coin.getVolume());
+            logger.info("Coin Name : {}, Coin Symbol : {}, Coin Price : {}, Coin Volume : {}", coin.getCoinName(), coin.getCoinSymbol(), coin.getPrice(), coin.getVolume());
         }
     }
 
@@ -129,7 +116,7 @@ public class Main {
             logger.info("Trader Coins : ");
 
             for (Coins curr : result) {
-                logger.info("Coin Name : {}, Coin Symbol : {}, Coin Price : {}, Coin Volume : {}", curr.getName(), curr.getSymbol(), curr.getPrice(), curr.getVolume());
+                logger.info("Coin Name : {}, Coin Symbol : {}, Coin Price : {}, Coin Volume : {}", curr.getCoinName(), curr.getCoinSymbol(), curr.getPrice(), curr.getVolume());
             }
         });
     }
