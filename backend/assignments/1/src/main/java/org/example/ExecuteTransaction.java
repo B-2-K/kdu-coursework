@@ -103,14 +103,9 @@ public class ExecuteTransaction implements Runnable {
             supply = trader.getCoinToVolume().getOrDefault(symbol,0L);
         }
         synchronized (coin){
-            while (quantity > supply){
-                try{
-                    // volume up or sell
-                    trader.wait();
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-                supply  = trader.getCoinToVolume().getOrDefault(symbol,0L);
+            if (quantity > supply){
+                logger.info("Not enough quantity");
+                return;
             }
             // have enough to sell
             trader.sellCoin(symbol,quantity,price);
