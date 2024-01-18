@@ -59,7 +59,9 @@ public class Trader{
 
     public  void printPortfolio() {
         logger.info("Net profit-loss: {}", profitLoss);
-        coinToVolume.forEach((symbol, volume) -> logger.info("Symbol: {}, Volume: {}", symbol, volume));
+        coinToVolume.forEach((symbol, volume) -> {
+            logger.info("Symbol: {}, Volume: {}", symbol, volume);
+        });
     }
 
     public  void buyCoin(String symbol,Long volume,double price) {

@@ -8,30 +8,31 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 public class TraderDetails {
-    public static final HashMap<String, Trader> traders = Main.traders;
-    private static TraderDetails accessTraders = new TraderDetails();
+    public static final HashMap<String, Trader> walletAddressToTraders = Main.walletAddressToTraders;
+    private static TraderDetails traderInfo = new TraderDetails();
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(TraderDetails.class);
     private TraderDetails(){
     }
-    public static TraderDetails getAccessTraders() {
-        if(accessTraders == null){
-            accessTraders = new TraderDetails();
+
+    public static TraderDetails getTraderInfo() {
+        if(traderInfo == null){
+            traderInfo = new TraderDetails();
         }
-        return accessTraders;
+        return traderInfo;
     }
-    public static synchronized Trader getTrader(String address) {
-        Trader trader = traders.get(address);
+    public static Trader getTrader(String address) {
+        Trader trader = walletAddressToTraders.get(address);
         if (trader == null) {
             logger.info("trader doesn't exist with address : {}", address);
         }
         return trader;
     }
     public static void printTopNTraders(int n){
-        List<Trader> traderCollection = traders.values().stream().sorted((trader, t1) -> Double.compare(t1.getProfitLoss(),trader.getProfitLoss())).limit(n).toList();
+        List<Trader> traderCollection = walletAddressToTraders.values().stream().sorted((trader, t1) -> Double.compare(t1.getProfitLoss(),trader.getProfitLoss())).limit(n).toList();
         traderCollection.forEach(trader -> logger.info(trader.toString()));
     }
     public static void printLastNTraders(int n){
-        List<Trader> traderCollection = traders.values().stream().sorted((trader, t1) -> Double.compare(trader.getProfitLoss(),t1.getProfitLoss())).limit(n).toList();
+        List<Trader> traderCollection = walletAddressToTraders.values().stream().sorted((trader, t1) -> Double.compare(trader.getProfitLoss(),t1.getProfitLoss())).limit(n).toList();
         traderCollection.forEach(trader -> logger.info(trader.toString()));
     }
 }

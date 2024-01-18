@@ -15,8 +15,8 @@ import java.util.concurrent.*;
 
 public class Main {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(Main.class);
-    public static final HashMap<String, Trader> traders = new HashMap<>();
-    public static final HashMap<String, Coins> coins = new HashMap<>();
+    public static final HashMap<String, Trader> walletAddressToTraders = new HashMap<>();
+    public static final HashMap<String, Coins> symbolToCoins = new HashMap<>();
     static JsonNode jsonNode;
     static CountDownLatch countDownLatch;
     static ExecutorService executorService;
@@ -27,20 +27,23 @@ public class Main {
         loadCoins("/home/hp/Desktop/KDU/Assignment1/src/main/resources/coins.csv");
         String jsonFilePath = "/home/hp/Desktop/KDU/Assignment1/src/main/resources/test_transaction.json";
         parseJsonFile(jsonFilePath);
-        countDownLatch = new CountDownLatch(jsonNode.size()+1);
+        countDownLatch = new CountDownLatch(jsonNode.size() + 1);
         Thread thread = new Thread(() -> executeTransactions(jsonNode,countDownLatch));
         thread.start();
-        displayCoins();
-        displayTraders();
-        displayTopCoins();
-        displayTopTraders();
-        displayBottomTraders();
         try {
             thread.join();
         } catch (Exception e) {
             Thread.currentThread().interrupt();
             logger.warn(e.getMessage());
+        }finally {
+            // Shutdown the executor service
+            executorService.shutdown();
         }
+        displayCoins();
+        displayTraders();
+        displayTopCoins();
+        displayTopTraders();
+        displayBottomTraders();
     }
 
     public static List<String[]> parseCSV(Path coinCsvPath){
@@ -73,17 +76,20 @@ public class Main {
             for (int i = 1; i < r.size(); i++) {
                 String[] traderDetails = r.get(i);
                 Trader trader = new Trader();
+
                 int id = Integer.parseInt(traderDetails[0]);
-                trader.setId(id);
                 String firstName = traderDetails[1];
-                trader.setFirstName(firstName);
                 String lastName = traderDetails[2];
-                trader.setLastName(lastName);
-                String walletAddress = traderDetails[4];
-                trader.setWalletAddress(walletAddress);
                 String phone = traderDetails[3];
+                String walletAddress = traderDetails[4];
+
+                trader.setId(id);
+                trader.setFirstName(firstName);
+                trader.setLastName(lastName);
                 trader.setPhone(phone);
-                traders.put(walletAddress,trader);
+                trader.setWalletAddress(walletAddress);
+
+                walletAddressToTraders.put(walletAddress,trader);
             }
             logger.info("Traders Loaded.....");
         } catch (IOException | CsvException e) {
@@ -97,12 +103,20 @@ public class Main {
             for (int i = 1; i < r.size(); i++) {
                 String[] coinsDetails = r.get(i);
                 Coins coin = new Coins();
-                coin.setCoinName(coinsDetails[2]);
-                coin.setPrice(Double.parseDouble(coinsDetails[4]));
-                coin.setRank(Integer.parseInt(coinsDetails[1]));
-                coin.setSymbol(coinsDetails[3]);
-                coin.setCirculationSupply(Long.parseLong(coinsDetails[5]));
-                coins.put(coin.getCoinSymbol(), coin);
+
+                int rank = Integer.parseInt(coinsDetails[1]);
+                String name = coinsDetails[2];
+                String symbol = coinsDetails[3];
+                double price = Double.parseDouble(coinsDetails[4]);
+                long circulationSupply = Long.parseLong(coinsDetails[5]);
+
+                coin.setRank(rank);
+                coin.setCoinName(name);
+                coin.setCoinSymbol(symbol);
+                coin.setPrice(price);
+                coin.setCirculationSupply(circulationSupply);
+
+                symbolToCoins.put(coin.getCoinSymbol(), coin);
             }
             logger.info("coins Loaded.....");
         } catch (IOException | CsvException e) {
@@ -111,15 +125,15 @@ public class Main {
     }
 
     public static void displayCoins(){
-        coins.forEach((key, value) ->{
-            Coins coin = coins.get(key);
+        symbolToCoins.forEach((key, value) ->{
+            Coins coin = symbolToCoins.get(key);
             logger.info("Name : {}, Symbol : {}, Price : {}, Volume : {}", coin.getCoinName(), coin.getCoinSymbol(), coin.getPrice(), coin.getCirculationSupply());
         });
     }
 
     public static void displayTraders(){
-        traders.forEach((key, value)->{
-            Trader trader = traders.get(key);
+        walletAddressToTraders.forEach((key, value)->{
+            Trader trader = walletAddressToTraders.get(key);
             logger.info("First Name : {}, Last Name : {}, Wallet Address : {}, Phone : {}", trader.getFirstName(), trader.getLastName(), trader.getWalletAddress(), trader.getPhone());
             trader.printPortfolio();
         });

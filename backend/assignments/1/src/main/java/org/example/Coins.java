@@ -11,12 +11,12 @@ public class Coins {
     private long circulationSupply;
     public Coins(){
     }
-    public Coins(int i, String bitcoin, String btc, double price, long volume) {
-        this.rank = i;
-        this.name = bitcoin;
-        this.symbol = btc;
+    public Coins(int rank, String name, String symbol, double price, long circulationSupply) {
+        this.rank = rank;
+        this.name = name;
+        this.symbol = symbol;
         this.price = price;
-        this.circulationSupply = volume;
+        this.circulationSupply = circulationSupply;
     }
     public  void setRank(int rank) {
         this.rank = rank;
@@ -30,7 +30,7 @@ public class Coins {
     public String getCoinSymbol(){
         return symbol;
     }
-    public  void setSymbol(String symbol) {
+    public  void setCoinSymbol(String symbol) {
         this.symbol = symbol;
     }
     // sync updates in coin....
@@ -43,12 +43,11 @@ public class Coins {
     public synchronized long getCirculationSupply() {
         return circulationSupply;
     }
+
     public void setCirculationSupply(long circulationSupply) {
-        synchronized (this){
-            this.circulationSupply = circulationSupply;
-            notifyAll();
-        }
+        this.circulationSupply = circulationSupply;
     }
+
     // display sinc ?
     public void printCoinDetails() {
         logger.info("Coin Details : ");

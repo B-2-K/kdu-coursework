@@ -1,17 +1,18 @@
 package org.example;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.LoggerFactory;
-
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
+
 public class ExecuteTransaction implements Runnable {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ExecuteTransaction.class);
     private JsonNode jsonTransaction;
     private CountDownLatch latch;
-    public static final TraderDetails traders = TraderDetails.getAccessTraders();
-    public static final CoinsDetails coins = CoinsDetails.getAccessCoins();
-    Random rnd;
-    public ExecuteTransaction(){
+    public static final TraderDetails traders = TraderDetails.getTraderInfo();
+    public static final CoinsDetails coins = CoinsDetails.getCoinInfo();
+    public ExecuteTransaction() {
+
     }
     public ExecuteTransaction(JsonNode transactions, CountDownLatch latch) {
         this.jsonTransaction = transactions;
@@ -19,7 +20,7 @@ public class ExecuteTransaction implements Runnable {
     }
 
     @Override
-    public synchronized void run() {
+    public void run() {
         try {
             getBlockHash();
             JsonNode data = jsonTransaction.get("data");
@@ -52,37 +53,40 @@ public class ExecuteTransaction implements Runnable {
         }
 
     }
-    private void processBuyTransaction(JsonNode data) {
+
+    private synchronized void processBuyTransaction(JsonNode data) {
         String symbol = data.get("coin").asText();
         Coins coin = coins.getCoins(symbol);
         long quantity = data.get("quantity").asLong();
         String walletAddress = data.get("wallet_address").asText();
         Trader trader = traders.getTrader(walletAddress);
+
         if (trader == null){
             logger.info("not a valid org.example.Trader");
             return;
         }
+
         long supply = coin.getCirculationSupply();
         double price  = coin.getPrice();
-        synchronized (coin){
-            while (quantity > supply){
-                try{
-                    coin.wait();
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-                supply  = coin.getCirculationSupply();
+        while (quantity > supply){
+            try{
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
-            // have enough to buy
-            coin.setCirculationSupply(supply - quantity);
-            trader.buyCoin(symbol,quantity,price);
-            TraderDetails.traders.put(walletAddress,trader);
-            CoinsDetails.coins.put(symbol,coin);
-            // notifying coin buy was success
-            coin.notifyAll();
+            supply  = coin.getCirculationSupply();
         }
+
+        // have enough to buy
+        coin.setCirculationSupply(supply - quantity);
+        trader.buyCoin(symbol,quantity,price);
+        TraderDetails.walletAddressToTraders.put(walletAddress,trader);
+        CoinsDetails.symbolToCoins.put(symbol,coin);
+        // notifying coin buy was success
+        notifyAll();
     }
-    private void processSellTransaction(JsonNode data) {
+
+    private synchronized void processSellTransaction(JsonNode data) {
         String symbol = data.get("coin").asText();
         Coins coin = coins.getCoins(symbol);
         if(coin == null)
@@ -97,26 +101,23 @@ public class ExecuteTransaction implements Runnable {
             logger.info("not a valid Trader");
             return;
         }
-        long supply;
         double price  = coin.getPrice();
-        synchronized (trader){
-            supply = trader.getCoinToVolume().getOrDefault(symbol,0L);
+        long supply = trader.getCoinToVolume().getOrDefault(symbol,0L);
+
+        if (quantity > supply){
+            logger.info("Not enough quantity");
+            return;
         }
-        synchronized (coin){
-            if (quantity > supply){
-                logger.info("Not enough quantity");
-                return;
-            }
-            // have enough to sell
-            trader.sellCoin(symbol,quantity,price);
-            coin.setCirculationSupply(coin.getCirculationSupply() + quantity);
-            TraderDetails.traders.put(walletAddress,trader);
-            CoinsDetails.coins.put(symbol,coin);
-            // notifying trader's sell has been done
-            trader.notifyAll();
-        }
+        // have enough to sell
+        trader.sellCoin(symbol,quantity,price);
+        coin.setCirculationSupply(coin.getCirculationSupply() + quantity);
+        TraderDetails.walletAddressToTraders.put(walletAddress,trader);
+        CoinsDetails.symbolToCoins.put(symbol,coin);
+        // notifying trader's sell has been done
+        notifyAll();
+
     }
-    private void addVolume(JsonNode data) {
+    private synchronized void addVolume(JsonNode data) {
         String symbol = data.get("coin").asText();
         Coins coin = coins.getCoins(symbol);
         if(coin == null)
@@ -125,13 +126,12 @@ public class ExecuteTransaction implements Runnable {
             return;
         }
         long volume = data.get("volume").asLong();
-        synchronized (coin){
-            coin.setCirculationSupply(coin.getCirculationSupply() + volume);
-            CoinsDetails.coins.put(symbol,coin);
-            coin.notifyAll();
-        }
+        coin.setCirculationSupply(coin.getCirculationSupply() + volume);
+        CoinsDetails.symbolToCoins.put(symbol,coin);
+        notifyAll();
     }
-    private void updatePrice(JsonNode data) {
+
+    private synchronized void updatePrice(JsonNode data) {
         String symbol = data.get("coin").asText();
         Coins coin = coins.getCoins(symbol);
         if(coin == null)
@@ -140,16 +140,15 @@ public class ExecuteTransaction implements Runnable {
             return;
         }
         double price = data.get("price").asDouble();
-        synchronized (coin){
-            coin.setPrice(price);
-            CoinsDetails.coins.put(symbol,coin);
-        }
+        coin.setPrice(price);
+        CoinsDetails.symbolToCoins.put(symbol,coin);
+        notifyAll();
     }
 
     private String getBlockHash() {
         String saltChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder transactionHash = new StringBuilder();
-        rnd = new Random();
+        Random rnd = new Random();
         // Introducing delay mimicking complex calculation being performed.
         for (double i = 0; i < 199999999; i++) {
             i = i;
