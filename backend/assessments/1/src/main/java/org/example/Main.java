@@ -136,7 +136,7 @@ public class Main{
                     String teama = arr.get(a);
                     String teamb = arr.get(b);
                     String ground = arr.get(c);
-                    data.add(new String[] { "16/01/2015", 1, teama, teamb, ground });
+                    data.add(new String[] { "16/01/2015", "1", teama, teamb, ground });
                     currNoOfMatches++;
                 }
             }
