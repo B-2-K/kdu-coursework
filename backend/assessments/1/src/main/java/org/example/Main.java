@@ -3,7 +3,6 @@ package org.example;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -16,7 +15,7 @@ import java.util.*;
 public class Main{
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(Main.class);
 
-    public static Map<String, Player> bowlerToPlayer = new HashMap<String, Player>();
+    public static Map<String, Player> nameToPlayer = new HashMap<String, Player>();
     public static void main(String[] args) {
         loadPlayers("/home/hp/Desktop/KDU/assessment1/src/main/resources/IPL_2021-data.csv");
         bowlersWithMoreThan40Wickets();
@@ -40,12 +39,8 @@ public class Main{
                 double strikeRate = Double.parseDouble(playerDetails[6]);
                 int witckets = Integer.parseInt(playerDetails[7]);
 
-                System.out.println(name + " " + team + " " + role + " " + mathces + " " + runs + " " + average + " " + strikeRate + " " + witckets);
-
                 Player player = new Player(name, team, role, mathces, runs, average, strikeRate, witckets);
-                if(role.equals("BOWLER")){
-                    bowlerToPlayer.put(name, player);
-                }
+                nameToPlayer.put(name, player);
             }
             logger.info("Players Loaded.....");
         } catch (Exception e) {
@@ -55,9 +50,9 @@ public class Main{
 
     public static void bowlersWithMoreThan40Wickets(){
         String teamName = "CSK";
-        bowlerToPlayer.forEach((key, value) ->{
-            Player player = bowlerToPlayer.get(key);
-            if(player.getWitckets() >= 40 && player.getTeam().equals(teamName)){
+        nameToPlayer.forEach((key, value) ->{
+            Player player = nameToPlayer.get(key);
+            if(player.getWitckets() >= 40 && player.getTeam().equals(teamName) && player.getRole().equals("BOWLER")){
                 logger.info("Players Name : {}", player.getName());
             }
         });
@@ -68,7 +63,7 @@ public class Main{
         Map.Entry<String, Player> maxRunEntry = null;
         Map.Entry<String, Player> maxWitcketEntry = null;
 
-        for (Map.Entry<String, Player> currentEntry : bowlerToPlayer.entrySet()) {
+        for (Map.Entry<String, Player> currentEntry : nameToPlayer.entrySet()) {
             String currTeamName = currentEntry.getValue().getTeam();
             if(currTeamName.equals(teamName)){
                 if (maxRunEntry == null || currentEntry.getValue().getRuns() > maxRunEntry.getValue().getRuns()) {
@@ -88,11 +83,11 @@ public class Main{
 
     public static void top3RunScorerAndTop3WitcketTaker(){
         logger.info("Top 3 Run Scorer :");
-        List<Player> top3Batter = bowlerToPlayer.values().stream().sorted((player, t1) -> Double.compare(t1.getRuns(),player.getRuns())).limit(3).toList();
+        List<Player> top3Batter = nameToPlayer.values().stream().sorted((player, t1) -> Double.compare(t1.getRuns(),player.getRuns())).limit(3).toList();
         top3Batter.forEach(Player::printPlayerDetails);
 
         logger.info("Top 3 Witcket Taker :");
-        List<Player> top3Bowler = bowlerToPlayer.values().stream().sorted((player, t1) -> Double.compare(t1.getWitckets(),player.getWitckets())).limit(3).toList();
+        List<Player> top3Bowler = nameToPlayer.values().stream().sorted((player, t1) -> Double.compare(t1.getWitckets(),player.getWitckets())).limit(3).toList();
         top3Bowler.forEach(Player::printPlayerDetails);
     }
 
@@ -112,9 +107,10 @@ public class Main{
 
             // create a List which contains String array
             List<String[]> data = new ArrayList<>();
-            // only takind two input for now but can we increased further.
+
             int min = 1;
             int max = 8;
+            // only taking two input for now but can we increased further.
             int noOfMatches = 2;
             int currNoOfMatches = 0;
             ArrayList<String> arr = new ArrayList<>();
@@ -128,15 +124,19 @@ public class Main{
             arr.add("DC");
             data.add(new String[] { "Date", "Match Number", "Team Home", "Team Away", "Ground" });
             while(currNoOfMatches < noOfMatches){
-                int a = (int)(Math.random()*(max-min+1)+min);
-                int b = (int)(Math.random()*(max-min+1)+min);
-                int c = (int)(Math.random()*(max-min+1)+min);
+                int a = (int)(Math.random()*(max-min+1)+min) - 1;
+                int b = (int)(Math.random()*(max-min+1)+min) - 1;
+                int c = (int)(Math.random()*(max-min+1)+min) - 1;
 
                 if(check(a,b,c)){
                     String teama = arr.get(a);
                     String teamb = arr.get(b);
                     String ground = arr.get(c);
-                    data.add(new String[] { "16/01/2015", "1", teama, teamb, ground });
+                    String no = Integer.toString(currNoOfMatches);
+                    String date = "16/01/2023";
+                    // dates needs to be updated everytime...
+                    data.add(new String[] { "16/01/2015", no, teama, teamb, ground });
+                    logger.info(teama + " vs " + teamb);
                     currNoOfMatches++;
                 }
             }
