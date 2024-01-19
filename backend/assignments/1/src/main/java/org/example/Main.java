@@ -21,7 +21,7 @@ public class Main {
     static CountDownLatch countDownLatch;
     static ExecutorService executorService;
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws InterruptedException {
         // initial coins and traders loaded
         loadTraders("/home/hp/Desktop/KDU/Assignment1/src/main/resources/traders.csv");
         loadCoins("/home/hp/Desktop/KDU/Assignment1/src/main/resources/coins.csv");
