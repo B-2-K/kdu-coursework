@@ -1,0 +1,25 @@
+<configuration>
+    <!-- Common configuration for both profiles -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Default configuration for all profiles -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+    <!-- Configuration for 'dev' profile -->
+    <springProfile name="dev">
+        <root level="INFO">
+        </root>
+    </springProfile>
+
+    <!-- Configuration for 'prod' profile -->
+    <springProfile name="prod">
+        <root level="WARN">
+        </root>
+    </springProfile>
+</configuration>
