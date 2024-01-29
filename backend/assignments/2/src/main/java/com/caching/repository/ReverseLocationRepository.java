@@ -20,7 +20,7 @@ public class ReverseLocationRepository {
     @Value("${api-key}")
     private String apiKey;
 
-    private static final String URLAPI = "http://api.positionstack.com/v1/reverse";
+    private static final String urlReverseGeoCoding = "http://api.positionstack.com/v1/reverse";
     private final RestTemplate restTemplate = new RestTemplate();
 
     /**
@@ -35,7 +35,7 @@ public class ReverseLocationRepository {
     @Cacheable(cacheNames = "reverse-geocoding", key = "{#latitude,#longitude}")
     public LocationEntity getAddressLabel(String latitude, String longitude) {
         if (checkCoordinates(latitude, longitude)) {
-            String url = URLAPI + "?access_key=" + apiKey + "&query=" + latitude + "," + longitude;
+            String url = urlReverseGeoCoding + "?access_key=" + apiKey + "&query=" + latitude + "," + longitude;
             JsonNode response = restTemplate.getForObject(url, JsonNode.class);
             if (response == null) {
                 throw new LocationNotFoundException("Error while fetching location in reverse geocoding");

@@ -21,7 +21,7 @@ public class LocationRepository {
     @Value("${api-key}")
     private String apiKey;
 
-    private static final String URLAPI = "http://api.positionstack.com/v1/forward?";
+    private static final String urlGeoCoding = "http://api.positionstack.com/v1/forward?";
     private final RestTemplate callAPI = new RestTemplate();
 
     /**
@@ -33,7 +33,7 @@ public class LocationRepository {
      */
     @Cacheable(cacheNames = "geocoding", key = "#address", unless = "#address.toLowerCase().contains('goa')")
     public LocationEntity getCoordinates(String address) {
-        String url = URLAPI + "access_key=" + apiKey + "&query=" + address;
+        String url = urlGeoCoding + "access_key=" + apiKey + "&query=" + address;
         JsonNode apiResponse = callAPI.getForObject(url, JsonNode.class);
         if (apiResponse == null) {
             throw new LocationNotFoundException("The API response is null. Could not fetch the location");
