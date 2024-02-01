@@ -2,7 +2,6 @@ package com.example.springjpa.services;
 
 import com.example.springjpa.entities.User;
 import com.example.springjpa.repository.UserRepository;
-import com.example.springjpa.specifications.UserSpecifications;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
