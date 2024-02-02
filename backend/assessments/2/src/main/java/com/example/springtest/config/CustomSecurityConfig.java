@@ -21,10 +21,9 @@ public class CustomSecurityConfig {
                 addFilterAfter(new TokenGeneratorFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new TokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests) -> requests
-//                        .requestMatchers("/products").permitAll()
-//                        .requestMatchers("/products", "/products/**", "/products/*").hasRole("ADMIN")
-//                        .anyRequest().authenticated()).csrf().disable();
-        .anyRequest().permitAll());
+                        .requestMatchers("/person/login").permitAll()
+                        .requestMatchers("/products", "/products/**", "/products/*").hasRole("ADMIN")
+                        .anyRequest().authenticated()).csrf().disable();
         http.httpBasic(withDefaults());
         return http.build();
     }
