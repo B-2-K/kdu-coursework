@@ -1,4 +1,5 @@
-package com.example.springbootsecurity.exception.custom;
+package com.example.springbootapidemo.exception;
+
 public class MyCustomException extends IndexOutOfBoundsException{
     public MyCustomException(String s) {
         super(s);

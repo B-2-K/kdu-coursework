@@ -1,10 +1,11 @@
-package com.example.springbootsecurity;
+package com.example.springbootapidemo;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringbootSecurityApplication {
+public class SpringbootApiDemoApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SpringbootSecurityApplication.class, args);
+        SpringApplication.run(SpringbootApiDemoApplication.class, args);
     }
 }

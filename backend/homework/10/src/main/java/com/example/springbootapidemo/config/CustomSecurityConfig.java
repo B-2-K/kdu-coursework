@@ -1,7 +1,7 @@
-package com.example.springbootsecurity.config;
+package com.example.springbootapidemo.config;
 
-import com.example.springbootsecurity.filter.TokenGeneratorFilter;
-import com.example.springbootsecurity.filter.TokenValidatorFilter;
+import com.example.springbootapidemo.filter.TokenGeneratorFilter;
+import com.example.springbootapidemo.filter.TokenValidatorFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,10 +21,9 @@ public class CustomSecurityConfig {
                 addFilterAfter(new TokenGeneratorFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new TokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/user/login").permitAll()
-                        .requestMatchers("/user").hasRole("ADMIN")
+                        .requestMatchers("/person/login").permitAll()
+                        .requestMatchers("/user/**", "/search/user", "/user").hasRole("ADMIN")
                         .anyRequest().authenticated()).csrf().disable();
-//        http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();
     }
