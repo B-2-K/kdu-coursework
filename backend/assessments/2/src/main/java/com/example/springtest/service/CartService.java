@@ -12,12 +12,16 @@ public class CartService {
     @Autowired
     private CartRepository cartRepository;
 
-    public List<Cart> getAllCart(){
+    public List<Cart> getAll(){
         return cartRepository.findAll();
     }
 
     public void saveCart(Cart cart){
         cartRepository.save(cart);
+    }
+
+    public void deleteCart(Cart cart){
+        cartRepository.delete(cart);
     }
 
     public Cart getCartById(Long id){
@@ -28,5 +32,13 @@ public class CartService {
             }
         }
         return cart;
+    }
+
+    public void deleteProduct(Long id){
+        Cart cart = getCartById(id);
+        if(cart == null){
+            throw new IllegalStateException("Product not found");
+        }
+        cartRepository.delete(cart);
     }
 }

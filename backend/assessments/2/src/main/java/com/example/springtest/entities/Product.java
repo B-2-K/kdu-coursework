@@ -15,6 +15,8 @@ public class Product {
     private Long id;
     private String name;
     private int quantity;
+    private double price;
+    private int threshold;
     @ManyToOne(
             cascade = CascadeType.ALL
     )

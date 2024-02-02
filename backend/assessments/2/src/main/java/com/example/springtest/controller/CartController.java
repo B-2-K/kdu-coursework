@@ -17,7 +17,7 @@ public class CartController {
 
     @GetMapping
     public List<Cart> getAll(){
-        return cartService.getAllCart();
+        return cartService.getAll();
     }
 
     @PostMapping
@@ -33,5 +33,10 @@ public class CartController {
             existingCart.setQuantity(updatedCart.getQuantity());
         }
         return new ResponseEntity<Cart>(existingCart, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        cartService.deleteProduct(id);
     }
 }

@@ -29,4 +29,8 @@ public class ProductService {
         }
         return product;
     }
+
+    public void deleteProduct(Long id){
+        productRepository.deleteById(id);
+    }
 }

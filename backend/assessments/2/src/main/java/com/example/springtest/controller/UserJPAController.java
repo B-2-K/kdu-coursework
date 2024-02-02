@@ -44,8 +44,13 @@ public class UserJPAController {
         }
     }
 
-    @PutMapping("/{id}/{quantity}")
-    public void buyProduct(@PathVariable int id, @PathVariable int quantity){
-        userJPAServices.buyProductById(id, quantity);
+    @GetMapping("/{id}")
+    public void getUserDetails(@PathVariable Long id){
+        userJPAServices.userDetails(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void orderPlaced(@PathVariable Long id){
+        userJPAServices.buyProductById(id);
     }
 }
