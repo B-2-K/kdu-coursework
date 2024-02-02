@@ -19,4 +19,14 @@ public class CartService {
     public void saveCart(Cart cart){
         cartRepository.save(cart);
     }
+
+    public Cart getCartById(Long id){
+        Cart cart = null;
+        for(Cart c : cartRepository.findAll()){
+            if(c.getId().equals(id)){
+                cart = c;
+            }
+        }
+        return cart;
+    }
 }

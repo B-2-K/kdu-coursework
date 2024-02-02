@@ -5,11 +5,7 @@ import com.example.springtest.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +24,15 @@ public class ProductController {
     public ResponseEntity<Product> createProduct(@RequestBody Product product){
         productService.saveProduct(product);
         return new ResponseEntity<Product>(product, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) {
+        Product existingProduct = productService.getProductById(id);
+        if (existingProduct != null) {
+
+            existingProduct.setName(updatedProduct.getName());
+        }
+        return new ResponseEntity<Product>(existingProduct, HttpStatus.OK);
     }
 }

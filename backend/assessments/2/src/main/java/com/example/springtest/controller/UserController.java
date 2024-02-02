@@ -36,4 +36,5 @@ public class UserController {
     public User searchUser(@RequestParam String name){
         return userService.getUserByUsername(name);
     }
+
 }

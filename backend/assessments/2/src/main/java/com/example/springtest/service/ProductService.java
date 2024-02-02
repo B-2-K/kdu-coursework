@@ -18,4 +18,15 @@ public class ProductService {
     public void saveProduct(Product tenant){
         productRepository.save(tenant);
     }
+
+    public Product getProductById(Long id){
+        Product product = null;
+        for(Product p : productRepository.findAll()) {
+            if(p.getId().equals(id)) {
+                product = p;
+                break;
+            }
+        }
+        return product;
+    }
 }
