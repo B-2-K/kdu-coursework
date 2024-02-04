@@ -1,6 +1,6 @@
 package com.kdu.smarthome.repository;
 
-import com.kdu.smarthome.entity.UserModel;
+import com.kdu.smarthome.entity.Inventory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserModel,Long> {
+public interface InventoryRepository extends JpaRepository<Inventory,Long> {
+
     @Query
-    Optional<UserModel> findByUsername(String username);
+    Optional<Inventory> findByKickstonId(String kickstonId);
 }

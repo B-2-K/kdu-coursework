@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorDTO {
-    String message;
-    int statusCode;
+public class DeviceDTO {
+    private String houseId;
+    private String roomId;
+    private String kickstonId;
 }
