@@ -1,0 +1,75 @@
+.flexbox {
+  display: flex;
+  flex-direction: column;
+  background-color: #fba4a6;
+  color: #f1f1f1;
+  padding-left: 5%;
+  padding-right: 5%;
+  height: 100%;
+}
+.flexbox .navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 2rem;
+}
+.flexbox .navbar .first {
+  display: flex;
+}
+.flexbox .navbar .second {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 20px;
+}
+.flexbox .navbar .second div {
+  display: block;
+}
+.flexbox .navbar .second .symbol {
+  display: none;
+}
+.flexbox .inner-flexbox {
+  display: flex;
+  flex-direction: row;
+}
+.flexbox .inner-flexbox .main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+.flexbox .inner-flexbox .main .title {
+  font-size: 3rem;
+}
+.flexbox .inner-flexbox .main .title p {
+  margin: 0;
+}
+.flexbox .inner-flexbox .main .button {
+  font-size: 1.5rem;
+  background-color: #a84749;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  padding: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .flexbox {
+    padding: 2%;
+  }
+  .main div {
+    display: inline;
+  }
+}
+@media screen and (max-width: 576px) {
+  .flexbox .navbar .second div {
+    display: none;
+  }
+  .flexbox .navbar .second .symbol {
+    display: block;
+  }
+  .flexbox .inner-flexbox {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}/*# sourceMappingURL=style.css.map */
