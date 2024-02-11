@@ -5,7 +5,10 @@
   color: #f1f1f1;
   padding-left: 5%;
   padding-right: 5%;
-  height: 100%;
+  height: 750px;
+  font-weight: bold;
+  font-family: sans-serif;
+  justify-content: space-around;
 }
 .flexbox .navbar {
   display: flex;
@@ -21,7 +24,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  gap: 20px;
+  gap: 50px;
 }
 .flexbox .navbar .second div {
   display: block;
@@ -38,9 +41,10 @@
   flex-direction: column;
   justify-content: center;
   gap: 10px;
+  flex-grow: 0.5;
 }
 .flexbox .inner-flexbox .main .title {
-  font-size: 3rem;
+  font-size: 5rem;
 }
 .flexbox .inner-flexbox .main .title p {
   margin: 0;
@@ -51,17 +55,29 @@
   max-width: -moz-fit-content;
   max-width: fit-content;
   padding: 10px;
+  border-radius: 5%;
 }
 
 @media screen and (max-width: 768px) {
   .flexbox {
     padding: 2%;
   }
+  .main .title {
+    white-space: nowrap;
+  }
   .main div {
     display: inline;
   }
+  .image {
+    flex-shrink: 1;
+  }
 }
 @media screen and (max-width: 576px) {
+  .flexbox {
+    height: 1200px;
+    justify-content: flex-start;
+    gap: 0%;
+  }
   .flexbox .navbar .second div {
     display: none;
   }
@@ -71,5 +87,8 @@
   .flexbox .inner-flexbox {
     display: flex;
     flex-direction: column-reverse;
+  }
+  .flexbox .inner-flexbox .main .title {
+    font-size: 3.5rem;
   }
 }/*# sourceMappingURL=style.css.map */
