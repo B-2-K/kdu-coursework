@@ -4,6 +4,11 @@
   font-family: sans-serif;
 }
 
+#like-button-id {
+  outline: none;
+  border: none;
+}
+
 .flexbox {
   display: flex;
   justify-content: space-around;
@@ -21,7 +26,7 @@
 }
 .flexbox .navigation-section div {
   display: flex;
-  width: 150%;
+  width: 100%;
 }
 .flexbox .navigation-section div div {
   width: 10%;
@@ -284,9 +289,9 @@
   .flexbox .mobile-tweet-section .tweet-box .input {
     display: flex;
   }
-  .flexbox .mobile-tweet-section .tweet-box .input #post-input {
+  .flexbox .mobile-tweet-section .tweet-box .input #mobile-post-input {
     width: 100%;
-    height: 30px;
+    height: 50px;
     font-size: large;
     color: gray;
     border: none;
@@ -332,6 +337,10 @@
     border-radius: 20px;
     width: 100px;
     margin-left: 80px;
+  }
+  .flexbox #mobile-like-button {
+    outline: none;
+    border: none;
   }
   .flexbox .mobile-post-section {
     display: block;
