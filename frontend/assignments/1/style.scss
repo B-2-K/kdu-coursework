@@ -4,32 +4,13 @@
     font-family: sans-serif;
 }
 
-#like-button-id {
-    outline: none;
-    border: none;
-}
-
-.mobile-navbar {
-    display: none;
-}
-
-#post-button-id.fade-out {
-    opacity: 0.5;
-}
-
-#desktop-like-img {
-    display: none;
-}
-
-.like-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
 .flexbox {
     display: flex;
     justify-content: space-around;
+
+    .mobile-navbar {
+        display: none;
+    }
 
     .mobile-post-section {
         display: none;
@@ -210,32 +191,27 @@
                 gap: 10px;
 
                 .main-post {
-                    // fix the width of this main post
                     width: 500px;
 
-                    // fix the width of this main post
-                    // max-width: 200px;
-
-                    // fix the height of this main post
-                    // max-height: 200px;
-
-                    // fix the width of this main post
-                    // width: 100%;
-
-                    // fix the height of this main post
-                    // height: 100%;
-
-                    // fix the width of this main post
                     .main-containt .blue-hashtag {
                         color: #1DA1F2;
                     }
 
                     .main-post-icons {
+                        button {
+                            outline: none;
+                            border: none;
+                        }
+
                         display: flex;
                         justify-content: space-between;
 
                         div {
                             width: 20px;
+
+                            button#desktop-like-button-png {
+                                border: none;
+                            }
                         }
                     }
                 }
@@ -269,11 +245,50 @@
         display: none;
     }
 
+    #like-button-desktop {
+        outline: none;
+        width: 35px;
+        border: none;
+    }
+
+    #unlike-button-desktop {
+        outline: none;
+        width: 35px;
+        border: none;
+        display: flex;
+    }
+
+    #desktop-like-count {
+        color: rgb(241, 58, 128);
+        font-weight: bold;
+    }
+
+    #like-count-desktop {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #like-count-manage {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        font-size: small;
+
+        div {
+            color: rgb(241, 58, 128);
+        }
+
+        #like-count-div {
+            margin-top: 4px;
+            display: none;
+        }
+
+        justify-content: flex-start;
+    }
 }
 
 
 @media screen and (max-width: 1100px) {
-
     .flexbox {
         .post-section {
             .tweet-box {
@@ -325,11 +340,6 @@
 
 
 @media screen and (max-width: 414px) {
-
-    #mobile-liked-img {
-        display: none;
-    }
-
     .flexbox {
         display: flex;
         flex-direction: column;
@@ -421,14 +431,11 @@
             display: none;
         }
 
-
-
         .mobile-tweet-section {
             .tweet-box {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
-                margin: 20px;
 
                 .upper-section {
                     display: flex;
@@ -436,13 +443,21 @@
                     align-items: center;
 
                     .upper-left {
-                        width: 25px;
+                        button {
+                            width: 40px;
+                            outline: none;
+                            border: none;
+                        }
                     }
 
                     div {
                         display: flex;
                         justify-content: space-around;
 
+
+                    }
+
+                    .upper-right {
                         div {
                             font-size: 1.2rem;
                             color: #1DA1F2;
@@ -557,8 +572,6 @@
             flex-direction: column;
             justify-content: flex-start;
             width: 100%;
-
-
 
             .posts {
                 display: flex;
