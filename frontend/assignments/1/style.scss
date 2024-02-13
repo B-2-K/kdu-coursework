@@ -9,6 +9,24 @@
     border: none;
 }
 
+.mobile-navbar {
+    display: none;
+}
+
+#post-button-id.fade-out {
+    opacity: 0.5;
+}
+
+#desktop-like-img {
+    display: none;
+}
+
+.like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
 .flexbox {
     display: flex;
     justify-content: space-around;
@@ -23,7 +41,9 @@
         font-size: 1.2rem;
 
         div {
+            gap: 5px;
             padding: 2%;
+            margin: 1px;
         }
 
         div {
@@ -116,9 +136,7 @@
         hr {
             border: none;
             border-top: 1px solid #ccc;
-            /* Adjust color and thickness as needed */
             margin: 10px 0;
-            /* Adjust margin as needed */
         }
 
         .tweet-box {
@@ -126,6 +144,7 @@
             flex-direction: column;
             justify-content: space-between;
             margin: 20px;
+            width: 600px;
 
             .input {
                 display: flex;
@@ -145,6 +164,7 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
+                margin-left: 60px;
 
                 .input-icons-left {
                     gap: 20px;
@@ -183,12 +203,33 @@
             flex-direction: row;
             justify-content: space-between;
             margin: 20px;
+            width: 600px;
 
             .left {
                 display: flex;
                 gap: 10px;
 
                 .main-post {
+                    // fix the width of this main post
+                    width: 500px;
+
+                    // fix the width of this main post
+                    // max-width: 200px;
+
+                    // fix the height of this main post
+                    // max-height: 200px;
+
+                    // fix the width of this main post
+                    // width: 100%;
+
+                    // fix the height of this main post
+                    // height: 100%;
+
+                    // fix the width of this main post
+                    .main-containt .blue-hashtag {
+                        color: #1DA1F2;
+                    }
+
                     .main-post-icons {
                         display: flex;
                         justify-content: space-between;
@@ -224,13 +265,75 @@
         display: none;
     }
 
+    #floating-post-button {
+        display: none;
+    }
+
+}
+
+
+@media screen and (max-width: 1100px) {
+
+    .flexbox {
+        .post-section {
+            .tweet-box {
+                width: 550px;
+            }
+
+            .posts {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                margin: 20px;
+                width: 550px;
+
+                .left {
+                    display: flex;
+                    gap: 10px;
+
+                    .main-post {
+                        width: 450px;
+
+                        .main-containt .blue-hashtag {
+                            color: #1DA1F2;
+                        }
+
+                        .main-post-icons {
+                            display: flex;
+                            justify-content: space-between;
+
+                            div {
+                                width: 20px;
+                            }
+                        }
+                    }
+                }
+
+                .more-repost-section {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+
+                    div {
+                        width: 20px;
+                    }
+                }
+            }
+        }
+    }
 }
 
 
 @media screen and (max-width: 414px) {
+
+    #mobile-liked-img {
+        display: none;
+    }
+
     .flexbox {
         display: flex;
         flex-direction: column;
+        width: 100%;
 
         .navigation-section {
             display: none;
@@ -245,19 +348,17 @@
             display: flex;
             justify-content: space-between;
 
-            div {
-                font-size: 2rem;
-            }
+            button {
+                padding: 10px;
 
-            .mobile-profile-view {
-                button {
-                    padding: 10px;
-                    color: white;
-                    background-color: #1DA1F2;
-                    font-size: 1rem;
-                    border-radius: 25px;
-                    font-weight: bold;
+                img {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
                 }
+
+                outline: none;
+                border: none;
             }
         }
 
@@ -270,17 +371,19 @@
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-            padding: 5px;
             font-weight: bold;
-            gap: 20px;
 
             div {
-                gap: 20px;
+                padding: 5px;
                 display: flex;
-                font-size: 2rem;
+
 
                 .mobile-image-icons {
                     width: 30px;
+                }
+
+                div {
+                    padding: 10px;
                 }
             }
 
@@ -297,9 +400,15 @@
                 .name-and-id {
                     display: flex;
                     flex-direction: column;
-                }
 
-                gap: 20px;
+                    div {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-start;
+                        gap: 0%;
+                        margin-left: 0px;
+                    }
+                }
             }
         }
 
@@ -312,9 +421,9 @@
             display: none;
         }
 
-        .mobile-tweet-section {
-            display: none;
 
+
+        .mobile-tweet-section {
             .tweet-box {
                 display: flex;
                 flex-direction: column;
@@ -324,9 +433,10 @@
                 .upper-section {
                     display: flex;
                     justify-content: space-between;
+                    align-items: center;
 
                     .upper-left {
-                        width: 20px;
+                        width: 25px;
                     }
 
                     div {
@@ -334,18 +444,20 @@
                         justify-content: space-around;
 
                         div {
-                            font-size: 1.5rem;
+                            font-size: 1.2rem;
                             color: #1DA1F2;
                             margin: 10px;
                             font-weight: bold;
                         }
 
                         button {
+                            text-align: center;
                             padding: 4px;
+                            height: 35px;
                             color: white;
                             background-color: #1DA1F2;
                             font-size: 1.2rem;
-                            font-weight: bold;
+                            // font-weight: bold;
                             border-radius: 20px;
                             width: 80px;
                         }
@@ -357,7 +469,6 @@
 
                     #mobile-post-input {
                         width: 100%;
-                        height: 50px;
                         font-size: large;
                         color: gray;
                         border: none;
@@ -421,6 +532,23 @@
         #mobile-like-button {
             outline: none;
             border: none;
+        }
+
+        #mobile-post-open-button {
+            outline: none;
+            border: none;
+        }
+
+        #floating-post-button {
+            display: block;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: flex-end;
+            width: fit-content;
+            height: fit-content;
+            position: fixed;
+            bottom: 200px;
+            right: 20px;
         }
 
         .mobile-post-section {

@@ -1,15 +1,45 @@
+const mainContaint = document.querySelector('.main-containt');
+const text = mainContaint.textContent;
+const hashtags = text.match(/#[^\s#]+/g);
+
+if (hashtags) {
+    hashtags.forEach(hashtag => {
+        const blueHashtag = document.createElement('span');
+        blueHashtag.classList.add('blue-hashtag');
+        blueHashtag.textContent = hashtag;
+        mainContaint.innerHTML = mainContaint.innerHTML.replace(hashtag, blueHashtag.outerHTML);
+    });
+}
+
+function checkInput() {
+    var input = document.getElementById('post-input');
+    var submitBtn = document.getElementById('post-button-id');
+
+    if (input.value.trim() === '') {
+        submitBtn.classList.add('fade-out');
+    } else {
+        submitBtn.classList.remove('fade-out');
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const profileButton = document.getElementById('profile-button');
     const profileDetails = document.getElementsByClassName('mobile-navigation')[0];
-    const otherDetails = document.getElementById('other-details');
+    const otherDetails = document.getElementsByClassName('mobile-post-section')[0];
+    const postButton = document.getElementById('mobile-post-open-button');
+    const navbar = document.getElementsByClassName('mobile-navbar')[0];
 
     profileButton.addEventListener('click', function () {
         if (profileDetails.style.display === 'none' || profileDetails.style.display === '') {
             profileDetails.style.display = 'block';
             otherDetails.style.display = 'none';
+            postButton.style.display = 'none';
+            navbar.style.display = 'none';
         } else {
             profileDetails.style.display = 'none';
             otherDetails.style.display = 'block';
+            postButton.style.display = 'none';
+            navbar.style.display = 'none';
         }
     });
 });
@@ -18,94 +48,71 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
     const profileButton = document.getElementById('mobile-post-open-button');
     const profileDetails = document.getElementsByClassName('mobile-tweet-section')[0];
-    const otherDetails = document.getElementById('other-details');
+    const otherDetails = document.getElementsByClassName('mobile-post-section')[0];
+    const navbar = document.getElementsByClassName('mobile-navbar')[0];
 
     profileButton.addEventListener('click', function () {
         if (profileDetails.style.display === 'none' || profileDetails.style.display === '') {
             profileDetails.style.display = 'block';
             otherDetails.style.display = 'none';
+            navbar.style.display = 'none';
         } else {
             profileDetails.style.display = 'none';
             otherDetails.style.display = 'block';
+            navbar.style.display = 'none';
         }
     });
 });
 
 
 // Like functionality
-document.addEventListener("DOMContentLoaded", function () {
-    // Get the like button
-    var likeButton = document.getElementById('like-button-id');
+var likes = 0;
+function toggleLike() {
+    var unlikeImg = document.getElementById('desktop-unlike-img');
+    var likeImg = document.getElementById('desktop-like-img');
 
-    var clickCount = 0; // Initialize click count
+    if (unlikeImg.style.display === '' || unlikeImg.style.display === 'block') {
+        unlikeImg.style.display = 'none';
+        likeImg.style.display = 'block';
+        likes++;
+    } else {
+        unlikeImg.style.display = 'block';
+        likeImg.style.display = 'none';
+        likes--;
+    }
 
-    // Add click event listener to the like button
-    likeButton.addEventListener("click", function () {
-        // Get the SVG path element
-        var svgPath = likeButton.querySelector('svg path');
+    var likeCount = document.getElementById('like-count');
+    likeCount.textContent = likes;
+}
 
-        // Toggle fill color based on click count
-        if (clickCount % 2 === 0) {
-            // Change the fill color of the SVG path to pink
-            svgPath.style.fill = '#FF69B4'; // Change to pink color code
-        } else {
-            // Reset the fill color of the SVG path to its original color
-            svgPath.style.fill = ''; // Reset to default color (empty string)
-        }
+var moLikes = 0;
+function mobileToggleLike() {
+    var unlikeImg = document.getElementById('mobile-unliked-img');
+    var likeImg = document.getElementById('mobile-liked-img');
 
-        // Increment click count
-        clickCount++;
-    });
-});
+    if (unlikeImg.style.display === '' || unlikeImg.style.display === 'block') {
+        unlikeImg.style.display = 'none';
+        likeImg.style.display = 'block';
+        likes++;
+    } else {
+        unlikeImg.style.display = 'block';
+        likeImg.style.display = 'none';
+        likes--;
+    }
 
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Get the like button
-    var likeButton = document.getElementById('mobile-like-button');
-
-    var clickCount = 0; // Initialize click count
-
-    // Add click event listener to the like button
-    likeButton.addEventListener("click", function () {
-        // Get the SVG path element
-        var svgPath = likeButton.querySelector('svg path');
-
-        // Toggle fill color based on click count
-        if (clickCount % 2 === 0) {
-            // Change the fill color of the SVG path to pink
-            svgPath.style.fill = '#FF69B4'; // Change to pink color code
-        } else {
-            // Reset the fill color of the SVG path to its original color
-            svgPath.style.fill = ''; // Reset to default color (empty string)
-        }
-
-        // Increment click count
-        clickCount++;
-    });
-});
-
-
+    var likeCount = document.getElementById('like-count');
+    likeCount.textContent = likes;
+}
 
 // Post functionality
-
 document.addEventListener("DOMContentLoaded", function () {
-    // Get the post button
     var postButton = document.getElementById('post-button-id')
-
-    // Add click event listener to the post button
     postButton.addEventListener("click", function () {
-        // Get the value of the post input
         var postInput = document.getElementById("post-input").value;
-
         console.log(postInput);
-
-        // Check if the post input is not empty
         if (postInput.trim() !== "") {
-            // Create a new post element
             var newPost = document.createElement("div");
-            newPost.classList.add("posts"); // Add 'posts' class to the new post
-
-            // Populate the new post element with the post content
+            newPost.classList.add("posts");
             newPost.innerHTML = `
                 <div class="left">
                     <div class="nav-profile-image">
@@ -208,16 +215,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
             `;
 
-            // Get the parent element where new posts will be added
             var postContainer = document.querySelector(".new-posts");
-
-            // Add the new post element to the beginning of the post container
             postContainer.prepend(newPost);
-
-            // Clear the post input after posting
             document.getElementById("post-input").value = "";
         } else {
-            // If the post input is empty, alert the user
             alert("Please enter a post message.");
         }
     });
@@ -225,23 +226,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Get the post button
     var postButton = document.getElementById('mobile-post-buttton-id')
-
-    // Add click event listener to the post button
     postButton.addEventListener("click", function () {
-        // Get the value of the post input
         var postInput = document.getElementById("mobile-post-input").value;
-
         console.log(postInput);
-
-        // Check if the post input is not empty
         if (postInput.trim() !== "") {
-            // Create a new post element
             var newPost = document.createElement("div");
-            newPost.classList.add("posts"); // Add 'posts' class to the new post
-
-            // Populate the new post element with the post content
+            newPost.classList.add("posts");
             newPost.innerHTML = `
                 <div class="left">
                     <div class="nav-profile-image">
@@ -344,16 +335,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             `;
 
-            // Get the parent element where new posts will be added
             var postContainer = document.querySelector(".mobile-post-section");
-
-            // Add the new post element to the beginning of the post container
             postContainer.prepend(newPost);
-
-            // Clear the post input after posting
             document.getElementById("post-input").value = "";
         } else {
-            // If the post input is empty, alert the user
             alert("Please enter a post message.");
         }
     });

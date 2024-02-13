@@ -9,6 +9,24 @@
   border: none;
 }
 
+.mobile-navbar {
+  display: none;
+}
+
+#post-button-id.fade-out {
+  opacity: 0.5;
+}
+
+#desktop-like-img {
+  display: none;
+}
+
+.like-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 .flexbox {
   display: flex;
   justify-content: space-around;
@@ -22,7 +40,9 @@
   font-size: 1.2rem;
 }
 .flexbox .navigation-section div {
+  gap: 5px;
   padding: 2%;
+  margin: 1px;
 }
 .flexbox .navigation-section div {
   display: flex;
@@ -98,15 +118,14 @@
 .flexbox .post-section hr {
   border: none;
   border-top: 1px solid #ccc;
-  /* Adjust color and thickness as needed */
   margin: 10px 0;
-  /* Adjust margin as needed */
 }
 .flexbox .post-section .tweet-box {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin: 20px;
+  width: 600px;
 }
 .flexbox .post-section .tweet-box .input {
   display: flex;
@@ -124,6 +143,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-left: 60px;
 }
 .flexbox .post-section .tweet-box .input-icons .input-icons-left {
   gap: 20px;
@@ -154,10 +174,17 @@
   flex-direction: row;
   justify-content: space-between;
   margin: 20px;
+  width: 600px;
 }
 .flexbox .post-section .posts .left {
   display: flex;
   gap: 10px;
+}
+.flexbox .post-section .posts .left .main-post {
+  width: 500px;
+}
+.flexbox .post-section .posts .left .main-post .main-containt .blue-hashtag {
+  color: #1DA1F2;
 }
 .flexbox .post-section .posts .left .main-post .main-post-icons {
   display: flex;
@@ -183,11 +210,55 @@
 .flexbox .mobile-tweet-section {
   display: none;
 }
+.flexbox #floating-post-button {
+  display: none;
+}
 
+@media screen and (max-width: 1100px) {
+  .flexbox .post-section .tweet-box {
+    width: 550px;
+  }
+  .flexbox .post-section .posts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px;
+    width: 550px;
+  }
+  .flexbox .post-section .posts .left {
+    display: flex;
+    gap: 10px;
+  }
+  .flexbox .post-section .posts .left .main-post {
+    width: 450px;
+  }
+  .flexbox .post-section .posts .left .main-post .main-containt .blue-hashtag {
+    color: #1DA1F2;
+  }
+  .flexbox .post-section .posts .left .main-post .main-post-icons {
+    display: flex;
+    justify-content: space-between;
+  }
+  .flexbox .post-section .posts .left .main-post .main-post-icons div {
+    width: 20px;
+  }
+  .flexbox .post-section .posts .more-repost-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .flexbox .post-section .posts .more-repost-section div {
+    width: 20px;
+  }
+}
 @media screen and (max-width: 414px) {
+  #mobile-liked-img {
+    display: none;
+  }
   .flexbox {
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
   .flexbox .navigation-section {
     display: none;
@@ -200,16 +271,15 @@
     display: flex;
     justify-content: space-between;
   }
-  .flexbox .mobile-navbar div {
-    font-size: 2rem;
-  }
-  .flexbox .mobile-navbar .mobile-profile-view button {
+  .flexbox .mobile-navbar button {
     padding: 10px;
-    color: white;
-    background-color: #1DA1F2;
-    font-size: 1rem;
-    border-radius: 25px;
-    font-weight: bold;
+    outline: none;
+    border: none;
+  }
+  .flexbox .mobile-navbar button img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
   }
   .flexbox .mobile-navigation {
     display: none;
@@ -219,22 +289,21 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    padding: 5px;
     font-weight: bold;
-    gap: 20px;
   }
   .flexbox .mobile-navigation div {
-    gap: 20px;
+    padding: 5px;
     display: flex;
-    font-size: 2rem;
   }
   .flexbox .mobile-navigation div .mobile-image-icons {
     width: 30px;
   }
+  .flexbox .mobile-navigation div div {
+    padding: 10px;
+  }
   .flexbox .mobile-navigation .user-profile {
     display: flex;
     flex-direction: column;
-    gap: 20px;
   }
   .flexbox .mobile-navigation .user-profile img {
     width: 50px;
@@ -245,10 +314,14 @@
     display: flex;
     flex-direction: column;
   }
-  .flexbox .mobile-navigation {
-    display: none;
+  .flexbox .mobile-navigation .user-profile .name-and-id div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0%;
+    margin-left: 0px;
   }
-  .flexbox .mobile-tweet-section {
+  .flexbox .mobile-navigation {
     display: none;
   }
   .flexbox .mobile-tweet-section {
@@ -263,26 +336,28 @@
   .flexbox .mobile-tweet-section .tweet-box .upper-section {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
   .flexbox .mobile-tweet-section .tweet-box .upper-section .upper-left {
-    width: 20px;
+    width: 25px;
   }
   .flexbox .mobile-tweet-section .tweet-box .upper-section div {
     display: flex;
     justify-content: space-around;
   }
   .flexbox .mobile-tweet-section .tweet-box .upper-section div div {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: #1DA1F2;
     margin: 10px;
     font-weight: bold;
   }
   .flexbox .mobile-tweet-section .tweet-box .upper-section div button {
+    text-align: center;
     padding: 4px;
+    height: 35px;
     color: white;
     background-color: #1DA1F2;
     font-size: 1.2rem;
-    font-weight: bold;
     border-radius: 20px;
     width: 80px;
   }
@@ -291,7 +366,6 @@
   }
   .flexbox .mobile-tweet-section .tweet-box .input #mobile-post-input {
     width: 100%;
-    height: 50px;
     font-size: large;
     color: gray;
     border: none;
@@ -341,6 +415,23 @@
   .flexbox #mobile-like-button {
     outline: none;
     border: none;
+  }
+  .flexbox #mobile-post-open-button {
+    outline: none;
+    border: none;
+  }
+  .flexbox #floating-post-button {
+    display: block;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    width: -moz-fit-content;
+    width: fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    position: fixed;
+    bottom: 200px;
+    right: 20px;
   }
   .flexbox .mobile-post-section {
     display: block;
