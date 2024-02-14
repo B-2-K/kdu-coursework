@@ -20,8 +20,7 @@ const systemInfo = getSystemInfo();
 console.log(systemInfo);
 
 function writeSystemInfoToFile(filename) {
-    const introMessage = "Hello, my name is Bittu Kumar!\nHere is my system information:\n";
-    const systemInfoWithIntro = introMessage + JSON.stringify(systemInfo, null, 2);
+    const systemInfoWithIntro = JSON.stringify(systemInfo, null, 2);
     fs.writeFileSync(filename, systemInfoWithIntro);
 }
 
