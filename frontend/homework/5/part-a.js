@@ -20,31 +20,30 @@ const systemInfo = getSystemInfo();
 console.log(systemInfo);
 
 function writeSystemInfoToFile(filename) {
-    const json = JSON.stringify(systemInfo, null, 2);
-    fs.writeFileSync(filename, json);
+    const introMessage = "Hello, my name is Bittu Kumar!\nHere is my system information:\n";
+    const systemInfoWithIntro = introMessage + JSON.stringify(systemInfo, null, 2);
+    fs.writeFileSync(filename, systemInfoWithIntro);
 }
+
 
 writeSystemInfoToFile('systemInfo.json');
 
 const server = http.createServer((req, res) => {
     if (req.url === '/') {
-        fs.readFile('systemInfo.json', (err, data) => {
-            if (err) {
-                res.writeHead(500, { 'Content-Type': 'text/plain' });
-                res.end('Internal Server Error');
-                return;
-            }
+        const introMessage = "Hello, my name is Bittu Kumar!\nHere is my system information:\n";
+        const systemInfoString = JSON.stringify(systemInfo, null, 2);
+        const responseMessage = introMessage + systemInfoString;
 
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(data);
-        });
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end(responseMessage);
     } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('Not Found');
     }
 });
 
-const PORT = process.env.PORT || 3000;
+
+const PORT = process.env.PORT || 5000;
 
 // Start the server
 server.listen(PORT, () => {
