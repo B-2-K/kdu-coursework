@@ -1,0 +1,59 @@
+* {
+    font-family: sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .navbar {
+
+        background-color: rgb(92, 92, 243);
+        align-content: center;
+        // text-align: center;
+    }
+
+    .main-section {
+        display: flex;
+        width: 100%;
+        flex-direction: space-between;
+
+        .left {
+            width: 75%;
+
+            .data-details {
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                gap: 10px;
+                height: 40px;
+                background-color: green;
+            }
+        }
+
+        .right {
+            background-color: rgb(153, 241, 230);
+            width: 100%;
+            div {
+                margin: 5px;
+            }
+        }
+    }
+}
+
+#messages {
+    display: flex;
+    background-color: goldenrod;
+}
+
+.transactions {
+    display: flex;
+    flex-direction: column;
+    height: 30px;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}

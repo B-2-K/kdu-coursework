@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Stock-Market-App</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="navbar">
+            <h1>KDU Stock Market Dashboard</h1>
+        </div>
+        <div class="main-section">
+            <div class="left">
+                <div class="data-details">
+                    <div>Zomato</div>
+                    <div>
+                        Price <span id="price"></span>
+                    </div>
+                    <div>
+                        <label for="input"></label>
+                        <input type="text" id="input" placeholder="Enter Quantity">
+                    </div>
+                    <div class="history">
+
+                        <button id="submit" class="buy-btn" onclick="handleClickRed()">Buy</button>
+                    </div>
+                    <div>
+                        <button id="submit" class="sell-btn" onclick="handleClick()">Sell</button>
+                    </div>
+                </div>
+                <div class="data-graph">
+                    <div class="chat-section">
+                        <div id="messages">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <h2>History</h2>
+                <div class="messages"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"
+        integrity="sha384-Gr6Lu2Ajx28mzwyVR8CFkULdCU7kMlZ9UthllibdOSo6qAiN+yXNHqtgdTvFXMT4"
+        crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
