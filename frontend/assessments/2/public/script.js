@@ -2,27 +2,56 @@ function handleClick() {
     const input = document.getElementById("input");
     const button = document.getElementById("submit");
     const messages = document.querySelector(".messages");
-    console.log("clicked");
-    const element = document.createElement("div");
+    
+    // Get current date and time
+    const currentDate = new Date();
+    const dateTimeString = currentDate.toLocaleString();
 
+    // Create a new div element
+    const element = document.createElement("div");
     element.className = "transactions";
-    element.style.backgroundColor = 'green';
-    element.textContent = `SELL : quantity ${input.value}`;
+
+    // Add content to the div
+    element.innerHTML = `<span style="color: green;">SELL</span>${input.value} Stocks<br>${dateTimeString}`;
+
+    element.style.border = "1px solid";
+    element.style.padding = "5px";
+    element.style.width = "95%";
+    element.style.height = "100%";
+
+    // Append the new element to the messages container
     messages.appendChild(element);
+
+    // Clear input field
     input.value = "";
 }
+
 
 function handleClickRed() {
     const input = document.getElementById("input");
     const button = document.getElementById("submit");
     const messages = document.querySelector(".messages");
-    console.log("clicked");
-    const element = document.createElement("div");
+    
+    // Get current date and time
+    const currentDate = new Date();
+    const dateTimeString = currentDate.toLocaleString();
 
+    // Create a new div element
+    const element = document.createElement("div");
     element.className = "transactions";
-    element.style.backgroundColor = 'red';
-    element.textContent = `BUY : quantity ${input.value}`;
+
+    // Add content to the div
+    element.innerHTML = `<span style="color: red;">BUY</span>${input.value} Stocks<br>${dateTimeString}`;
+
+    element.style.border = "1px solid";
+    element.style.padding = "5px";
+    element.style.width = "95%";
+    element.style.height = "100%";
+
+    // Append the new element to the messages container
     messages.appendChild(element);
+
+    // Clear input field
     input.value = "";
 }
 
@@ -51,20 +80,35 @@ function randomInteger() {
 }
 
 const pricetag = document.getElementById('price');
-pricetag.innerHTML = `${randomInteger()}`;
+
 
 // Function to add a new message to the UI
 function addMessage(data) {
     let messageContainer = document.createElement('div');
+    messageContainer.classList.add('bar');
     arr = [];
     for(i = 0; i < 60;i++){
         const val = randomInteger();
         let bar = document.createElement('div');
         bar.style.height = val + 'px';
-        bar.style.width = '10px';
-        bar.style.backgroundColor = 'blue';
+        bar.style.width = '50px';
+        bar.style.backgroundColor = getRandomColor();
         arr.push(val);
-        messages.appendChild(bar);
+        bar.style.alignSelf = 'flex-end'; 
+        bar.style.margin = '1px';
+        messageContainer.appendChild(bar);
     }
-    messages.scrollTo(0, document.body.scrollHeight);
+    messages.innerHTML = messageContainer.innerHTML;
+
+    pricetag.innerHTML = `${randomInteger()}`;
+}
+
+
+function getRandomColor() {
+    const randomNumber = Math.random();
+    if (randomNumber < 0.5) {
+        return 'red';
+    } else {
+        return 'green';
+    }
 }

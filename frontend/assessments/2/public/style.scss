@@ -6,35 +6,85 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-
+    
     .navbar {
-
+        padding: 5px;
+        border: solid 1px black;
         background-color: rgb(92, 92, 243);
         align-content: center;
-        // text-align: center;
+        margin-bottom: 10px;
     }
 
     .main-section {
         display: flex;
         width: 100%;
         flex-direction: space-between;
-
         .left {
             width: 75%;
 
             .data-details {
                 display: flex;
-                justify-content: space-evenly;
+                justify-content: space-between;
                 align-items: center;
                 gap: 10px;
-                height: 40px;
-                background-color: green;
+                height: 80px;
+                margin-bottom: 10px;
+                font-weight: bold;
+                div {
+                    display: flex;
+                    justify-content: space-around;
+                    img {
+                        width: 20px;
+                        height: 20px;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+
+                div {
+                    border: solid 1px black;
+                    padding: 5px;
+                    width: 300px;
+                    height: 40px;
+                    align-items: center;
+                    text-align: center;
+                }
+                button {
+                    color: white;
+                    background-color: white;
+                    outline: none;
+                    border: none;
+                }
+
+                #input {
+                    height: 40px;
+                    border: none;
+                    outline: none;
+                }
+
+                .buy-btn {
+                    width: 50px;
+                    height: 40px;
+                    background-color: red;
+                }
+
+                .sell-btn {
+                    width: 50px;
+                    height: 40px;
+                    background-color: green;
+                }
+            }
+
+            .data-graph {
+                border: solid 1px black;
             }
         }
 
         .right {
-            background-color: rgb(153, 241, 230);
+            border: solid 1px black;;
             width: 100%;
+            padding: 5px;
+            margin-left: 10px;
             div {
                 margin: 5px;
             }
@@ -44,7 +94,7 @@
 
 #messages {
     display: flex;
-    background-color: goldenrod;
+    background-color: rgb(255, 255, 255);
 }
 
 .transactions {
