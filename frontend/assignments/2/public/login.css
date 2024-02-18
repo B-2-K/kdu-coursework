@@ -1,0 +1,49 @@
+* {
+  background-color: black;
+  color: white;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 100px;
+}
+.container .heading {
+  font-size: 40px;
+  text-align: center;
+  margin: 20px;
+}
+.container .main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+}
+.container .main input {
+  width: 100%;
+  height: 22px;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border: 1px solid #38a8f3;
+}
+.container .main ::-moz-placeholder {
+  color: white;
+}
+.container .main ::placeholder {
+  color: white;
+}
+.container .main button {
+  width: 280px;
+  height: 40px;
+  border: none;
+  outline: none;
+  background-color: #38a8f3;
+  border-radius: 25px;
+  font-weight: bold;
+  padding: 0;
+  margin: 10px 0px 0px 0px;
+}/*# sourceMappingURL=login.css.map */

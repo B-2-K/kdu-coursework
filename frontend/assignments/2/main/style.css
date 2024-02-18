@@ -1,0 +1,631 @@
+* {
+  color: white;
+  background-color: black;
+  font-family: sans-serif;
+}
+
+.flexbox {
+  display: flex;
+  padding: 10px;
+}
+.flexbox hr {
+  margin: 0;
+}
+.flexbox .mobile-navbar {
+  display: none;
+}
+.flexbox .mobile-post-section {
+  display: none;
+}
+.flexbox .navigation-section {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
+  margin-left: 70px;
+}
+.flexbox .navigation-section .x {
+  width: 25px;
+  height: 25px;
+  margin-bottom: 10px;
+}
+.flexbox .navigation-section button {
+  width: 200px;
+  font-size: 1.2rem;
+  display: flex;
+  outline: none;
+  border: none;
+  height: 50px;
+  padding: 0;
+}
+.flexbox .navigation-section button div {
+  width: 25px;
+  height: 25px;
+  margin: 4px;
+}
+.flexbox .navigation-section button:hover {
+  background-color: rgb(31, 29, 29);
+  border-radius: 20px;
+}
+.flexbox .navigation-section .nav-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.flexbox .navigation-section .nav-button div {
+  padding: 10%;
+}
+.flexbox .navigation-section .nav-button button {
+  padding: 10px;
+  color: white;
+  background-color: #1DA1F2;
+  font-size: 1.2rem;
+  border-radius: 25px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.flexbox .navigation-section .name {
+  font-weight: bold;
+}
+.flexbox .navigation-section .twitter-id {
+  color: gray;
+}
+.flexbox .navigation-section .nav-profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 1rem;
+  margin: 20px;
+}
+.flexbox .navigation-section .nav-profile .nav-profile-left {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.flexbox .navigation-section .nav-profile .nav-profile-left img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.flexbox .navigation-section .nav-profile .nav-profile-left div {
+  display: flex;
+  flex-direction: column;
+}
+.flexbox .navigation-section .nav-profile .nav-profile-left div div {
+  text-align: left;
+  text-wrap: nowrap;
+}
+.flexbox .nav-profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.flexbox .nav-profile-image img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.flexbox .post-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 50%;
+}
+.flexbox .post-section .post-nav {
+  display: flex;
+  justify-content: space-around;
+}
+.flexbox .post-section .post-nav div {
+  color: gray;
+}
+.flexbox .post-section hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 10px 0;
+}
+.flexbox .post-section .tweet-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 20px;
+  width: 600px;
+}
+.flexbox .post-section .tweet-box .input {
+  display: flex;
+}
+.flexbox .post-section .tweet-box .input #post-input {
+  width: 100%;
+  height: 30px;
+  font-size: large;
+  color: gray;
+  border: none;
+  outline: none;
+  padding: 10px;
+}
+.flexbox .post-section .tweet-box .input-icons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 60px;
+}
+.flexbox .post-section .tweet-box .input-icons .input-icons-left {
+  gap: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.flexbox .post-section .tweet-box .input-icons .input-icons-left img {
+  width: 20px;
+  height: 20px;
+}
+.flexbox .post-section .tweet-box .input-icons .input-icons-left div {
+  width: 20px;
+}
+.flexbox .post-section .tweet-box .input-icons .input-icons-right button {
+  padding: 8px;
+  color: white;
+  background-color: #1DA1F2;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 20px;
+  width: 100px;
+  margin-left: 80px;
+}
+.flexbox .post-section .posts {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 20px;
+  width: 600px;
+}
+.flexbox .post-section .posts .left {
+  display: flex;
+  gap: 10px;
+}
+.flexbox .post-section .posts .left .main-post {
+  width: 500px;
+}
+.flexbox .post-section .posts .left .main-post .main-containt .blue-hashtag {
+  color: #1DA1F2;
+}
+.flexbox .post-section .posts .left .main-post .main-post-icons {
+  display: flex;
+  justify-content: space-between;
+}
+.flexbox .post-section .posts .left .main-post .main-post-icons button {
+  outline: none;
+  border: none;
+}
+.flexbox .post-section .posts .left .main-post .main-post-icons div {
+  width: 20px;
+}
+.flexbox .post-section .posts .left .main-post .main-post-icons div button#desktop-like-button-png {
+  border: none;
+}
+.flexbox .post-section .posts .more-repost-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.flexbox .post-section .posts .more-repost-section div {
+  width: 20px;
+}
+.flexbox .moblie-navbar {
+  display: none;
+}
+.flexbox .mobile-navigation {
+  display: none;
+}
+.flexbox .mobile-tweet-section {
+  display: none;
+}
+.flexbox #floating-post-button {
+  display: none;
+}
+.flexbox #like-button-desktop {
+  outline: none;
+  width: 35px;
+  border: none;
+}
+.flexbox #unlike-button-desktop {
+  outline: none;
+  width: 35px;
+  border: none;
+  display: flex;
+}
+.flexbox #desktop-like-count {
+  color: rgb(241, 58, 128);
+  font-weight: bold;
+}
+.flexbox #like-count-desktop {
+  display: flex;
+  flex-direction: row;
+}
+.flexbox #like-count-manage {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  font-size: small;
+  justify-content: flex-start;
+}
+.flexbox #like-count-manage div {
+  color: rgb(241, 58, 128);
+}
+.flexbox #like-count-manage #like-count-div {
+  margin-top: 4px;
+  display: none;
+}
+.flexbox .chats {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  font-weight: bold;
+  width: 30%;
+  align-items: center;
+}
+.flexbox .chats .chat-btn {
+  padding: 10px;
+  color: white;
+  background-color: #2a2a2b;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 400px;
+  height: 70px;
+  margin: 10px;
+  outline: none;
+  border: none;
+}
+.flexbox .chat-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 650px;
+  font-size: 20px;
+  font-weight: bold;
+  width: 45%;
+  overflow-y: scroll;
+  padding: 20px;
+}
+.flexbox .chat-section .message-format {
+  overflow-y: hidden;
+  width: 100%;
+  margin-left: 20px;
+}
+.flexbox .chat-section .message-format .right .right {
+  text-align: right;
+  /* Align text to the right */
+  background-color: blue;
+  /* Set background color to blue */
+  color: white;
+  /* Set text color to white for better contrast */
+  margin-left: auto;
+  /* Push the message to the right */
+}
+.flexbox .chat-section .right {
+  text-align: right;
+  /* Align text to the right */
+  background-color: blue;
+  /* Set background color to blue */
+  color: white;
+  /* Set text color to white for better contrast */
+  margin-left: auto;
+  /* Push the message to the right */
+}
+.flexbox .chat-section .chat-messages-list li {
+  list-style: none;
+}
+.flexbox .chat-section .chat-messages-list #messages {
+  display: flex;
+  flex-direction: column;
+  background-color: #5f85e6;
+  gap: 10px;
+}
+.flexbox .chat-section .chat-messages-list #messages div {
+  overflow-y: scroll;
+}
+.flexbox .chat-section .input-section {
+  margin: 20px;
+}
+.flexbox .chat-section .input-section #form {
+  margin: 0;
+  background-color: gray;
+  border-radius: 15px;
+}
+.flexbox .chat-section .input-section #form .input-and-button {
+  position: sticky;
+  bottom: 0;
+  margin-bottom: 15px;
+  margin: 15px;
+  display: flex;
+  justify-content: space-between;
+  background-color: gray;
+}
+.flexbox .chat-section .input-section #form .input-and-button #chat-input {
+  padding: 3px;
+  width: 450px;
+  height: 40px;
+  font-size: 1rem;
+  border: none;
+  background-color: gray;
+}
+.flexbox .chat-section .input-section #form .input-and-button button {
+  background-color: gray;
+  width: 50px;
+  margin: 0;
+  outline: none;
+  border: none;
+}
+.flexbox .chat-section .input-section #form .input-and-button button img {
+  margin: 0;
+  background-color: gray;
+  width: 40px;
+  height: 45px;
+}
+.flexbox .chat-section {
+  display: none;
+}
+.flexbox .chats {
+  display: none;
+}
+.flexbox hr {
+  color: gray;
+}
+
+@media screen and (max-width: 1100px) {
+  .flexbox .post-section .tweet-box {
+    width: 550px;
+  }
+  .flexbox .post-section .posts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px;
+    width: 550px;
+  }
+  .flexbox .post-section .posts .left {
+    display: flex;
+    gap: 10px;
+  }
+  .flexbox .post-section .posts .left .main-post {
+    width: 450px;
+  }
+  .flexbox .post-section .posts .left .main-post .main-containt .blue-hashtag {
+    color: #1DA1F2;
+  }
+  .flexbox .post-section .posts .left .main-post .main-post-icons {
+    display: flex;
+    justify-content: space-between;
+  }
+  .flexbox .post-section .posts .left .main-post .main-post-icons div {
+    width: 20px;
+  }
+  .flexbox .post-section .posts .more-repost-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .flexbox .post-section .posts .more-repost-section div {
+    width: 20px;
+  }
+}
+@media screen and (max-width: 414px) {
+  .flexbox {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .flexbox .navigation-section {
+    display: none;
+  }
+  .flexbox .post-section {
+    display: none;
+  }
+  .flexbox .mobile-navbar {
+    display: block;
+    display: flex;
+    justify-content: space-between;
+  }
+  .flexbox .mobile-navbar button {
+    padding: 10px;
+    outline: none;
+    border: none;
+  }
+  .flexbox .mobile-navbar button img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  .flexbox .mobile-navigation {
+    display: none;
+  }
+  .flexbox .mobile-navigation {
+    display: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-weight: bold;
+  }
+  .flexbox .mobile-navigation div {
+    padding: 5px;
+    display: flex;
+  }
+  .flexbox .mobile-navigation div .mobile-image-icons {
+    width: 30px;
+  }
+  .flexbox .mobile-navigation div div {
+    padding: 10px;
+  }
+  .flexbox .mobile-navigation .user-profile {
+    display: flex;
+    flex-direction: column;
+  }
+  .flexbox .mobile-navigation .user-profile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  .flexbox .mobile-navigation .user-profile .name-and-id {
+    display: flex;
+    flex-direction: column;
+  }
+  .flexbox .mobile-navigation .user-profile .name-and-id div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0%;
+    margin-left: 0px;
+  }
+  .flexbox .mobile-navigation {
+    display: none;
+  }
+  .flexbox .mobile-tweet-section {
+    display: none;
+  }
+  .flexbox .mobile-tweet-section .tweet-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .flexbox .mobile-tweet-section .tweet-box .upper-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .flexbox .mobile-tweet-section .tweet-box .upper-section .upper-left button {
+    width: 40px;
+    outline: none;
+    border: none;
+  }
+  .flexbox .mobile-tweet-section .tweet-box .upper-section div {
+    display: flex;
+    justify-content: space-around;
+  }
+  .flexbox .mobile-tweet-section .tweet-box .upper-section .upper-right div {
+    font-size: 1.2rem;
+    color: #1DA1F2;
+    margin: 10px;
+    font-weight: bold;
+  }
+  .flexbox .mobile-tweet-section .tweet-box .upper-section .upper-right button {
+    text-align: center;
+    padding: 4px;
+    height: 35px;
+    color: white;
+    background-color: #1DA1F2;
+    font-size: 1.2rem;
+    border-radius: 20px;
+    width: 80px;
+  }
+  .flexbox .mobile-tweet-section .tweet-box .input {
+    display: flex;
+  }
+  .flexbox .mobile-tweet-section .tweet-box .input #mobile-post-input {
+    width: 100%;
+    font-size: large;
+    color: gray;
+    border: none;
+    outline: none;
+    padding: 10px;
+  }
+  .flexbox .mobile-tweet-section .tweet-box .reply-section {
+    display: flex;
+    gap: 10px;
+  }
+  .flexbox .mobile-tweet-section .tweet-box .reply-section .globe-image {
+    width: 20px;
+  }
+  .flexbox .mobile-tweet-section .tweet-box .reply-section div {
+    color: #1DA1F2;
+    font-weight: bold;
+  }
+  .flexbox .mobile-tweet-section .tweet-box .input-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .flexbox .mobile-tweet-section .tweet-box .input-icons .input-icons-left {
+    gap: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .flexbox .mobile-tweet-section .tweet-box .input-icons .input-icons-left img {
+    width: 20px;
+    height: 20px;
+  }
+  .flexbox .mobile-tweet-section .tweet-box .input-icons .input-icons-left div {
+    width: 20px;
+  }
+  .flexbox .mobile-tweet-section .tweet-box .input-icons .input-icons-right button {
+    padding: 8px;
+    color: white;
+    background-color: #1DA1F2;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 20px;
+    width: 100px;
+    margin-left: 80px;
+  }
+  .flexbox #mobile-like-button {
+    outline: none;
+    border: none;
+  }
+  .flexbox #mobile-post-open-button {
+    outline: none;
+    border: none;
+  }
+  .flexbox #floating-post-button {
+    display: block;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    width: -moz-fit-content;
+    width: fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    position: fixed;
+    bottom: 200px;
+    right: 20px;
+  }
+  .flexbox .mobile-post-section {
+    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  .flexbox .mobile-post-section .posts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px;
+  }
+  .flexbox .mobile-post-section .posts .left {
+    display: flex;
+    gap: 10px;
+  }
+  .flexbox .mobile-post-section .posts .left .main-post .main-post-icons {
+    display: flex;
+    justify-content: space-between;
+  }
+  .flexbox .mobile-post-section .posts .left .main-post .main-post-icons div {
+    width: 20px;
+  }
+  .flexbox .mobile-post-section .posts .more-repost-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .flexbox .mobile-post-section .posts .more-repost-section div {
+    width: 20px;
+  }
+}/*# sourceMappingURL=style.css.map */

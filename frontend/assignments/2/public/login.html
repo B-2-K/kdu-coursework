@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Twitter Login Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="keywords" content="Form,flex, ,Twitter form ,sachindusahan,html,css" />
+<link rel="stylesheet" href="./login.css"/>
+<meta property="og:title" content="Twitter Login Form" />
+</head>
+<body>
+  <div class='container'>
+        <div class="heading">Login to X</div>
+        <div class="main">
+            <label for="username"></label>
+            <input id="username" type="text" placeholder="Username">
+            <label for="password"></label>
+            <input id="password" type="password" placeholder="Password">
+            <button id="loginBtn">Log in</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginBtn").addEventListener("click", function() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var data = {
+                username: username,
+                password: password
+            };
+
+            // Make a POST request to the login API
+            fetch('http://localhost:3000/api/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (response.ok) {
+                    // If login is successful, redirect to the main page with username as a parameter
+                    window.location.href = 'http://localhost:3000/main/index.html?username=' + encodeURIComponent(username);
+                } else {
+                    // If login fails, display an error message
+                    alert('Login failed. Please check your credentials.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
