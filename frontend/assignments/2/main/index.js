@@ -1,3 +1,16 @@
+function getQueryParameter(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
+const loggedUser = getQueryParameter('username');
+
+var currNameElement = document.getElementById('logged-user');
+currNameElement.textContent = loggedUser;
+
+// Usage
+console.log(loggedUser); // Output: user
+
 function hashtagsHandler() {
     const mainContaint = document.querySelector('.main-containt');
     const text = mainContaint.textContent;
@@ -165,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                     <div class="main-post">
                         <div class="user-details">
-                            <b>Nitesh Gupta</b> <span style="color: gray;"> @nit_hck - 1s</span>
+                            <b>${loggedUser}</b> <span style="color: gray;"> @nit_hck - 1s</span>
                         </div>
                         <div class="main-containt">
                             ${postInput}
@@ -266,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const messageBtn = document.getElementById("message-btn");
 
     const postSection = document.getElementsByClassName("post-section")[0];
@@ -274,8 +287,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const chatSection = document.getElementsByClassName("chat-section")[0];
 
     const chats = document.getElementsByClassName("chats")[0];
-    
-    messageBtn.addEventListener("click", function(e) {
+
+    messageBtn.addEventListener("click", function (e) {
         postSection.style.display = 'none';
         chatSection.style.display = 'flex';
         chats.style.display = 'flex';
@@ -315,7 +328,7 @@ socket.on('post message', (data) => {
                     </div>
                     <div class="main-post">
                         <div class="user-details">
-                            <b>Nitesh Gupta</b> <span style="color: gray;"> @nit_hck - 1s</span>
+                            <b>${data.name}</b> <span style="color: gray;"> @nit_hck - 1s</span>
                         </div>
                         <div class="main-containt">
                             ${postInput}
@@ -422,24 +435,25 @@ socket.on('post message', (data) => {
 const input = document.getElementById('chat-input');
 const messages = document.getElementById('chat-messages');
 
+
+var receiverId;
 // Event listener for form submission
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (input.value) {
-        socket.emit('chat message', input.value); // Send message to server
+        socket.emit('chat message', input.value); 
+
+        console.log(socket.id + '-' + receiverId);
+        var messageBox = document.getElementById(socket.id + '-' + receiverId);
         let messageContainer = document.createElement('div');
-        messageContainer.className = 'right'; // Add right class
+        messageContainer.className = socket.id + '-' + receiverId;
+
         let textMessage = document.createElement('p');
         textMessage.className = 'text-message';
         textMessage.textContent = input.value;
-
         messageContainer.appendChild(textMessage);
-        messages.appendChild(messageContainer);
-
-        var chatSections = document.getElementsByClassName('chat-section');
-        if (chatSections.length > 0) {
-            chatSections[0].style.display = 'flex';
-        }
+        messageContainer.className = 'right';
+        messageBox.appendChild(messageContainer);
     }
 });
 
@@ -468,28 +482,12 @@ socket.on('add new users', (data) => {
         console.log('i', i);
         if (user) {
             console.log("Adding button for user:", user.userName);
-            addButton({id: onlineUsersList[i], name: user.userName});
+            addButton({ id: onlineUsersList[i], name: user.userName });
         } else {
             console.log("User with ID", onlineUsersList[i], "not found.");
         }
     }
 });
-
-
-socket.on('load msg', (data) => {
-    // console.log("data loaded");
-    // var allMessagesList = data.allMessagesList;
-    console.log("all messages list: " + data.allMessagesList[0].sender);
-    const allMessagesList = data.allMessagesList;
-
-    // for(var i = 0; i < allMessagesList.length;i++){
-    //     console.log(allMessagesList[i]);
-    //     var msg = allMessagesList[i][2];
-    //     console.log(msg);
-    //     addMessage({ id: socket.id, msg: msg});
-    // }
-    // console.log(allMessagesList);
-})
 
 function removeButton(socketId) {
     var allButtons = document.getElementsByClassName('chat-btn');
@@ -503,6 +501,8 @@ function removeButton(socketId) {
 // Function to add a new message to the UI
 function addMessage(data) {
     console.log('socket.id: ' + socket.id + ' message: ' + JSON.stringify(data) + 'data.id: ' + data.id);
+
+    var messageBox = document.getElementById(socket.id + '-' + data.id);
     let messageContainer = document.createElement('div');
     messageContainer.className = socket.id + '-' + data.id;
 
@@ -511,20 +511,15 @@ function addMessage(data) {
     let textMessage = document.createElement('p');
     textMessage.className = 'text-message';
     textMessage.textContent = data.msg;
-
-    // messageContainer.appendChild(avatarImage);
     messageContainer.appendChild(textMessage);
 
-    messages.appendChild(messageContainer);
-
-    var id = 'message-' + data.id;
+    messageBox.appendChild(messageContainer);
 
     var chatSections = document.getElementsByClassName('chat-section');
     if (chatSections.length > 0) {
         chatSections[0].style.display = 'flex';
     }
-    
-    // addButton(data.id);
+    // messages.appendChild(messageBox);
 
     messages.scrollTo(0, document.body.scrollHeight);
 }
@@ -555,7 +550,7 @@ function addButton(data) {
         chatSection.onclick = function () {
             handleChatMessageClick(this); // Passes the button element as an argument
         };
-
+        addMessageBox(socket.id + '-' + data.id);
         chatsList.appendChild(chatSection);
     }
     else {
@@ -563,48 +558,48 @@ function addButton(data) {
     }
 }
 
-function handleChatMessageClick(button) {
-    var receiver = button.id;
-    var sender = socket.id;
-    socket.emit('handleChatMessage clecked');
-    socket.emit('id', button.id);
-    var allMessages = messages.childNodes;
-    for(var i = 0; i < allMessages.length; i++) {
-        if(allMessages[i].className === sender + '-' + receiver){
-            allMessages[i].style.display = 'block';
-        }
-        else {
-            allMessages[i].style.display = 'none';
+function addMessageBox(msgBoxId) {
+    var isPresent = false;
+    allMessagesDiv = messages.childNodes;
+    for (var i = 0; i < allMessagesDiv.length; i++) {
+        if (allMessagesDiv[i].id === msgBoxId) {
+            isPresent = true;
         }
     }
+    if (!isPresent) {
+        var messageBox = document.createElement('div');
+        messageBox.id = msgBoxId;
+    }
+    messages.appendChild(messageBox);
 }
 
 function handleChatMessageClick(button) {
     var receiver = button.id;
+    receiverId = button.id;
     var sender = socket.id;
     socket.emit('handleChatMessage clicked');
     socket.emit('id', button.id);
     var allMessages = messages.childNodes;
     console.log("All messages length: " + allMessages.length);
-    for(var i = 0; i < allMessages.length; i++) {
-        // Check if the current node is an element node
-        if (allMessages[i].nodeType === Node.ELEMENT_NODE) {
-            if(allMessages[i].className === sender + '-' + receiver){
+    for (var i = 0; i < allMessages.length; i++) {
+        if (allMessages[i].nodeType === 1) { // Check if the node is an element node
+            console.log(allMessages[i]);
+            if (allMessages[i].id === sender + '-' + receiver) {
                 allMessages[i].style.display = 'block';
-            }
-            else {
+            } else {
                 allMessages[i].style.display = 'none';
             }
         }
     }
 }
 
+
+
 let page = 1;
 const pageSize = 5;
 let isLoading = false;
 
 document.addEventListener('DOMContentLoaded', () => {
-    if(posts.style.display == 'none')return;
     loadPosts();
     window.addEventListener('scroll', handleScroll);
 });
@@ -647,7 +642,7 @@ function appendPosts(posts) {
                     </div>
                     <div class="main-post">
                         <div class="user-details">
-                            <b>Nitesh Gupta</b> <span style="color: gray;"> @nit_hck - 1s</span>
+                            <b>${loggedUser}</b> <span style="color: gray;"> @nit_hck - 1s</span>
                         </div>
                         <div class="main-containt">
                             ${postInput}

@@ -65,7 +65,15 @@ io.on('connection', (socket) => {
     socket.on('post message', (msg) => {
         console.log('id:' + socket.id);
         console.log('message: ' + msg);
-        io.emit('post message', { id: socket.id, msg: msg });
+        var user = users.find(user => user.id === socket.id);
+        var name = "dummy";
+        if (user) {
+            name = user.userName;
+        } else {
+            console.log("User not found for username:", user_name);
+        }
+        console.log(name);
+        io.emit('post message', { id: socket.id, msg: msg, name: name});
     });
 
     socket.on('id', (socketId) => {
@@ -82,6 +90,7 @@ io.on('connection', (socket) => {
         allMessagesList.push({ sender: socket.id, receiver: id, message: msg });
 
         io.to(id).emit('chat message', { id: socket.id, msg: msg, allMessagesList: allMessagesList });
+        // io.to(socket.id).emit('chat message', { id: socket.id, msg: msg, allMessagesList: allMessagesList });
         console.log('all messages list', allMessagesList);
     });
 
@@ -144,7 +153,7 @@ app.post('/api/posts', (req, res) => {
         const text = req.body.text;
         console.log(text);
         noOfPosts++;
-        postMessage.push({ id: noOfPosts, text: text });
+        postMessage.unshift(text);
         res.status(200).json({ success: true, message: "post successfully" });
     }
     catch (error) {
