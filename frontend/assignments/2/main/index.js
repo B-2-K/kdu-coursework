@@ -461,14 +461,20 @@ socket.on('user disconnected', (data) => {
 socket.on('add new users', (data) => {
     onlineUsersList = data.onlineUsersList;
     users = data.users;
-    console.log(onlineUsersList);
-    console.log(users);
+    console.log("Online users list:", onlineUsersList);
+    console.log("Users:", users);
     for (var i = 0; i < onlineUsersList.length; i++) {
         const user = users.find(user => user.id === onlineUsersList[i]);
-        console.log("add button for user" , user.userName);
-        addButton({id: onlineUsersList[i], name: user.userName});
+        console.log('i', i);
+        if (user) {
+            console.log("Adding button for user:", user.userName);
+            addButton({id: onlineUsersList[i], name: user.userName});
+        } else {
+            console.log("User with ID", onlineUsersList[i], "not found.");
+        }
     }
 });
+
 
 socket.on('load msg', (data) => {
     // console.log("data loaded");
@@ -498,7 +504,7 @@ function removeButton(socketId) {
 function addMessage(data) {
     console.log('socket.id: ' + socket.id + ' message: ' + JSON.stringify(data) + 'data.id: ' + data.id);
     let messageContainer = document.createElement('div');
-    messageContainer.className = 'message-format';
+    messageContainer.className = socket.id + '-' + data.id;
 
     var id = 'message-' + data.id;
     messageContainer.id = id;
@@ -517,7 +523,7 @@ function addMessage(data) {
     if (chatSections.length > 0) {
         chatSections[0].style.display = 'flex';
     }
-
+    
     // addButton(data.id);
 
     messages.scrollTo(0, document.body.scrollHeight);
@@ -546,9 +552,9 @@ function addButton(data) {
         // chatSection.style.height = '50px';
 
         // Assigning an anonymous function to handle the click event
-        // chatSection.onclick = function () {
-        //     handleChatMessageClick(this); // Passes the button element as an argument
-        // };
+        chatSection.onclick = function () {
+            handleChatMessageClick(this); // Passes the button element as an argument
+        };
 
         chatsList.appendChild(chatSection);
     }
@@ -558,17 +564,13 @@ function addButton(data) {
 }
 
 function handleChatMessageClick(button) {
-    console.log('handleChatMessageClick');
-    console.log(button.id);
+    var receiver = button.id;
+    var sender = socket.id;
+    socket.emit('handleChatMessage clecked');
     socket.emit('id', button.id);
-    var chatSections = document.getElementsByClassName('chat-section');
-    // if (chatSections.length > 0) {
-    chatSections[0].style.display = 'flex';
-    // }
-
-    var allMessages = document.getElementsByClassName('message-format');
-    for (var i = 0; i < allMessages.length; i++) {
-        if (allMessages[i].id === button.id) {
+    var allMessages = messages.childNodes;
+    for(var i = 0; i < allMessages.length; i++) {
+        if(allMessages[i].className === sender + '-' + receiver){
             allMessages[i].style.display = 'block';
         }
         else {
@@ -577,17 +579,32 @@ function handleChatMessageClick(button) {
     }
 }
 
-// function displayMessages(){
-
-// }
-
-
+function handleChatMessageClick(button) {
+    var receiver = button.id;
+    var sender = socket.id;
+    socket.emit('handleChatMessage clicked');
+    socket.emit('id', button.id);
+    var allMessages = messages.childNodes;
+    console.log("All messages length: " + allMessages.length);
+    for(var i = 0; i < allMessages.length; i++) {
+        // Check if the current node is an element node
+        if (allMessages[i].nodeType === Node.ELEMENT_NODE) {
+            if(allMessages[i].className === sender + '-' + receiver){
+                allMessages[i].style.display = 'block';
+            }
+            else {
+                allMessages[i].style.display = 'none';
+            }
+        }
+    }
+}
 
 let page = 1;
 const pageSize = 5;
 let isLoading = false;
 
 document.addEventListener('DOMContentLoaded', () => {
+    if(posts.style.display == 'none')return;
     loadPosts();
     window.addEventListener('scroll', handleScroll);
 });

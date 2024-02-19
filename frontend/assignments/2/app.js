@@ -18,7 +18,8 @@ app.use(bodyParser.json());
 // Dummy users data
 const users = [
     { id: 1, userName: 'user', password: '1234', name: 'User One' },
-    { id: 2, userName: 'user1', password: '1234', name: 'User Two' }
+    { id: 2, userName: 'user1', password: '1234', name: 'User Two' },
+    { id: 3, userName: 'user2', password: '1234', name: 'User Three' }
 ];
 
 // All messages list 
@@ -42,24 +43,24 @@ io.on('connection', (socket) => {
     var id = "";
     console.log("connection established");
     console.log(socket.id);
-    
+
     // find users with username user_name
     var user = users.find(user => user.userName === user_name);
     console.log(user_name);
-if (user) {
-    user.id = socket.id;
-} else {
-    console.log("User not found for username:", user_name);
-    // Handle this case according to your application's logic
-}
+    if (user) {
+        user.id = socket.id;
+    } else {
+        console.log("User not found for username:", user_name);
+        // Handle this case according to your application's logic
+    }
 
 
     onlineUsersList.push(socket.id);
     console.log("list on online users : " + onlineUsersList);
-    socket.emit('add new users', ({onlineUsersList : onlineUsersList, users : users}));
+    socket.emit('add new users', ({ onlineUsersList: onlineUsersList, users: users }));
 
 
-    io.except(socket.id).emit('new user', {id: socket.id, name: user_name});
+    io.except(socket.id).emit('new user', { id: socket.id, name: user_name });
 
     socket.on('post message', (msg) => {
         console.log('id:' + socket.id);
@@ -70,7 +71,7 @@ if (user) {
     socket.on('id', (socketId) => {
         console.log(socketId);
         id = socketId;
-        io.to(socket.id).emit('load msg', {receiver: id, sender: socket.id, allMessagesList: allMessagesList});
+        io.to(socket.id).emit('load msg', { receiver: id, sender: socket.id, allMessagesList: allMessagesList });
     });
 
     socket.on('chat message', (msg) => {
@@ -80,7 +81,7 @@ if (user) {
 
         allMessagesList.push({ sender: socket.id, receiver: id, message: msg });
 
-        io.to(id).emit('chat message', { id: socket.id, msg: msg, allMessagesList: allMessagesList});
+        io.to(id).emit('chat message', { id: socket.id, msg: msg, allMessagesList: allMessagesList });
         console.log('all messages list', allMessagesList);
     });
 
@@ -143,8 +144,8 @@ app.post('/api/posts', (req, res) => {
         const text = req.body.text;
         console.log(text);
         noOfPosts++;
-        postMessage.push({id : noOfPosts, text: text});
-        res.status(200).json({ success: true, message: "post successfully"});
+        postMessage.push({ id: noOfPosts, text: text });
+        res.status(200).json({ success: true, message: "post successfully" });
     }
     catch (error) {
         console.log(error);
