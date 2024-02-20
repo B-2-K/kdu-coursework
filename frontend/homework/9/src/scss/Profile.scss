@@ -1,0 +1,13 @@
+.details-page {
+    display: flex;
+    flex-direction: column;
+    padding: 100px;
+    background-color: #ffe68c;
+    height: 80vh;
+}
+
+.additional-details {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-evenly;
+}

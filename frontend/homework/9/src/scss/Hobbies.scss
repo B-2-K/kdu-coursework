@@ -1,0 +1,21 @@
+.hobbies {
+    display: flex;
+    flex-direction: column;
+    background-color: #a5f0af;
+    width: 45%;
+    height: 400px;
+    margin-left: auto;
+    padding: 20px;
+    .heading {
+        color: orange;
+    }
+}
+.hobby-list {
+    list-style: none;
+    margin-top: 20px;
+    font-weight: bold;
+    color: green;
+}
+.heading {
+    text-align: center;
+}
