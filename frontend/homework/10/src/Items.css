@@ -1,0 +1,26 @@
+.item-body {
+
+}
+.items {
+    background-color: rgb(251, 252, 251);
+    margin: auto;
+}
+
+.heading {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.items-container{
+    width: 60%;
+    margin: auto;
+    border: 1px solid black;
+    div {
+        padding : 5px;
+    }
+    .item-heading {
+        font-size: 1.2rem;
+        margin-left: 10px;
+        font-weight: bold;
+    }
+}

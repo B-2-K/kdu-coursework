@@ -1,0 +1,54 @@
+.item {
+    display: flex;
+    flex-direction: column;
+    /* margin: 10px; */
+}
+
+#messages {
+    font-size: 1.2rem;
+    padding: 5px;
+    justify-content: center;
+    div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        button {
+            background-color: red;
+            padding: 2px;
+            outline: none;
+            border: none;
+        }
+    }
+}
+
+.messageList {
+    border: 1px solid black;
+    /* margin: 5px;
+     */
+     /* padding: 5px; */
+}
+
+#todos {
+     width: 50%;
+     margin: auto;
+     height: 30px;
+}
+
+button {
+    width: 50px;
+    margin: 10px;
+    height: 35px;
+}
+
+.input-and-button {
+    /* margin: auto; */
+    align-items: center;
+    width: 80%;
+    height: 60px;
+}
+
+.item-list-heading {
+    font-size: 1.2rem;
+    margin-left: 10px;
+    font-weight: bold;
+}

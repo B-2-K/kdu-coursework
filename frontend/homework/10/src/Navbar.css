@@ -1,0 +1,15 @@
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(5, 122, 20);
+    /* text-align: center; */
+    font-size: 2rem;
+    padding: 10px;
+    margin-bottom: 10px;
+    color: white;
+    div {
+        input {
+            width: 200px
+        }
+    }
+}
