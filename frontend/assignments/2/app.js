@@ -17,9 +17,9 @@ app.use(bodyParser.json());
 
 // Dummy users data
 const users = [
-    { id: 1, userName: 'user', password: '1234', name: 'User One' },
-    { id: 2, userName: 'user1', password: '1234', name: 'User Two' },
-    { id: 3, userName: 'user2', password: '1234', name: 'User Three' }
+    { id: 1, userName: 'Rohit Singh', password: '1234', name: 'User One' },
+    { id: 2, userName: 'Akshat Kumar', password: '1234', name: 'User Two' },
+    { id: 3, userName: 'Aayush Raj', password: '1234', name: 'User Three' }
 ];
 
 // All messages list 

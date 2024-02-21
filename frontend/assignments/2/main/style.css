@@ -259,6 +259,17 @@
   margin-top: 4px;
   display: none;
 }
+.flexbox #imageInput::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.flexbox #imageInput::before {
+  content: "";
+  display: flex;
+  width: 20px;
+  height: 20px;
+  background: url("your_icon_url.png") no-repeat center center; /* Optionally, set a custom icon */
+  cursor: pointer;
+}
 .flexbox .chats {
   display: flex;
   flex-direction: column;
@@ -294,30 +305,35 @@
   overflow-y: scroll;
   padding: 20px;
 }
-.flexbox .chat-section .message-format {
-  overflow-y: hidden;
+.flexbox .chat-section #chat-messages {
   width: 100%;
-  margin-left: 20px;
-}
-.flexbox .chat-section .message-format .right .right {
-  text-align: right;
-  /* Align text to the right */
-  background-color: blue;
-  /* Set background color to blue */
-  color: white;
-  /* Set text color to white for better contrast */
-  margin-left: auto;
-  /* Push the message to the right */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 .flexbox .chat-section .right {
   text-align: right;
-  /* Align text to the right */
-  background-color: blue;
-  /* Set background color to blue */
+  background-color: rgb(153, 153, 241);
   color: white;
-  /* Set text color to white for better contrast */
+  margin: 5px;
   margin-left: auto;
-  /* Push the message to the right */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 10px;
+}
+.flexbox .chat-section .received-msg {
+  background-color: rgb(83, 81, 81);
+  color: white;
+  margin: 5px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 10px;
 }
 .flexbox .chat-section .chat-messages-list li {
   list-style: none;

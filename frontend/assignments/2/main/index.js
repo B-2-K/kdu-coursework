@@ -446,12 +446,7 @@ form.addEventListener('submit', (e) => {
         console.log(socket.id + '-' + receiverId);
         var messageBox = document.getElementById(socket.id + '-' + receiverId);
         let messageContainer = document.createElement('div');
-        messageContainer.className = socket.id + '-' + receiverId;
-
-        let textMessage = document.createElement('p');
-        textMessage.className = 'text-message';
-        textMessage.textContent = input.value;
-        messageContainer.appendChild(textMessage);
+        messageContainer.innerText = input.value;
         messageContainer.className = 'right';
         messageBox.appendChild(messageContainer);
     }
@@ -504,15 +499,8 @@ function addMessage(data) {
 
     var messageBox = document.getElementById(socket.id + '-' + data.id);
     let messageContainer = document.createElement('div');
-    messageContainer.className = socket.id + '-' + data.id;
-
-    var id = 'message-' + data.id;
-    messageContainer.id = id;
-    let textMessage = document.createElement('p');
-    textMessage.className = 'text-message';
-    textMessage.textContent = data.msg;
-    messageContainer.appendChild(textMessage);
-
+    messageContainer.textContent = data.msg;
+    messageContainer.className = 'received-msg';
     messageBox.appendChild(messageContainer);
 
     var chatSections = document.getElementsByClassName('chat-section');
@@ -579,6 +567,13 @@ function handleChatMessageClick(button) {
     var sender = socket.id;
     socket.emit('handleChatMessage clicked');
     socket.emit('id', button.id);
+
+    var allButtons = document.getElementsByClassName('chat-btn');
+    for (var i = 0; i < allButtons.length; i++) {
+        allButtons[i].style.backgroundColor =  '#2a2a2b';
+    }
+
+    document.getElementById(receiver).style.backgroundColor = 'rgb(93, 93, 223)';
     var allMessages = messages.childNodes;
     console.log("All messages length: " + allMessages.length);
     for (var i = 0; i < allMessages.length; i++) {

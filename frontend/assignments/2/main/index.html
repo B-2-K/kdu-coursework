@@ -219,7 +219,7 @@
                 <div class="nav-profile-left">
                     <img src="./images/Profile/profile pic.png" alt="" srcset="">
                     <div>
-                        <div class="name">Nitesh Gupta</div>
+                        <div class="name"><b id="logged-user">Nitesh Gupta</b></div>
                         <div class="twitter-id">
                             @nit_hck
                         </div>
@@ -252,7 +252,9 @@
                 <br>
                 <div class="input-icons">
                     <div class="input-icons-left">
-                        <div><svg viewBox="0 0 24 24" aria-hidden="true"
+                        <div class="attachment">
+                            <label for="imageInput">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"
                                 class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03"
                                 style="color:#1DA1F2">
                                 <g>
@@ -261,6 +263,8 @@
                                     </path>
                                 </g>
                             </svg>
+                            </label>
+                            <input type="file" id="imageInput" style="display: none;">
                         </div>
                         <div><svg viewBox="0 0 24 24" aria-hidden="true"
                                 class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-z80fyv r-19wmn03"
@@ -335,6 +339,7 @@
                                 <b id="logged-user">Nitesh Gupta</b> <span style="color: gray;"> @nit_hck - 1s</span>
                             </div>
                             <div class="main-containt">
+                                <img src="./images/post.jpg" alt="" srcset="" style="width: 600px;">
                                 Coffee in hand, bugs beware, Time to crush some code.#DeveloperLife #Coding
                             </div>
                             <br>
@@ -447,7 +452,7 @@
         <hr>
 
         <div class="chat-section">
-            <h3>User Messages</h3>
+            <h3>Chat Messages</h3>
             <div id="chat-messages">
             </div>
             <div class="input-section">
