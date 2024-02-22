@@ -1,0 +1,42 @@
+.list-container {
+    width: 60%;
+    margin: auto;
+    border: 1px solid whitesmoke;
+    margin: 5px auto 5px auto;
+    padding: 10px;
+    .text {
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin: 10px 0 10px 0;
+    }
+
+    .todo-input {
+        input {
+            border: 1px solid whitesmoke;
+            height: 25px;
+
+        }
+        button {
+            background-color: black;
+            color: white;
+            height: 27px;
+        }
+    }
+
+    .todo-list {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        li {
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid whitesmoke;
+            padding: 10px;
+            button {
+                background-color: red;
+                color: white;
+                border: none;
+            }
+        }
+    }
+}
