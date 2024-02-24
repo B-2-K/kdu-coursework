@@ -1,0 +1,50 @@
+.quote-container {
+    background-color: #0c369e;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+    margin: 2rem;
+    text-align: center;
+    width: 50vw;
+    height: max-content;
+    padding-bottom: 2rem;
+
+    h2 {
+        padding: 1rem 3rem;
+    }
+
+    .author {
+        margin: 0;
+        align-self: flex-end;
+        padding-right: 1rem;
+        font-weight: 500;
+        width: fit-content;
+    }
+
+    .tag-item {
+        align-self: flex-start;
+    }
+
+    .author+p {
+        margin-top: 0.3rem;
+        align-self: flex-end;
+        padding-right: 1rem;
+        width: fit-content;
+    }
+
+    .tags-container {
+        align-self: flex-start;
+        margin-left: 1.5rem;
+
+        .tag-item {
+            background-color: #ee99c2;
+            color: black;
+            border-radius: 25px;
+            padding: 1rem 1rem;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+    }
+}

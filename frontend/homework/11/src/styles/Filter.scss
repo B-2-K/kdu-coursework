@@ -1,0 +1,23 @@
+.navigation {
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding: 1rem;
+    margin: 1rem;
+    margin-left: 2rem;
+    border-bottom: solid 1px black;
+
+    .filter-item__container {
+        background-color: #ee99c2;
+        border-radius: 25px;
+        padding: 0.5rem;
+        width: max-content;
+
+        .delete-button {
+            border: none;
+            background-color: #ee99c2;
+            color: red;
+        }
+    }
+}
