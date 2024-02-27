@@ -17,7 +17,10 @@ const TodoList: React.FC = () => {
     <ul className="todo-list">
       {filteredTodos.map((todo, index) => (
         <li key={index}>
-          {todo}
+          <div>
+            <input type="checkbox" id="checkbox" />
+            {todo}
+          </div>
           <button onClick={() => dispatch(deleteTodo(index))}>X</button>
         </li>
       ))}
