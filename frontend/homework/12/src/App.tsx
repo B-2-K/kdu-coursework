@@ -1,10 +1,19 @@
-import TodoApp from './components/TodoApp';
-import './App.scss';
+import Form from './components/Form'
+import ScrollToTop from './components/ScrollToTop'
+import Timer from './components/Timer'
+import './app.css'
 
 function App() {
+
   return (
-    <TodoApp/>
-  );
+    <>
+      <div className="app">
+      <Form/>
+      <Timer/>
+      <ScrollToTop/>
+      </div>
+    </>
+  )
 }
 
-export default App;
+export default App
