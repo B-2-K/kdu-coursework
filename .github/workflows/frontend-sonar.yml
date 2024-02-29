@@ -26,7 +26,7 @@ jobs:
 
       - name: SonarQube Scan
         run: |
-          cd ./frontend/homework/14 && sonar-scanner \
+          cd ./frontend/homework/18 && sonar-scanner \
             -Dsonar.projectKey=${{ secrets.KDUER_NAME }}-FE-Homework-14 \
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
