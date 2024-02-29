@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from '../redux/store';
 import { fetchProducts } from '../redux/fetchProducts';
 import '../styles/Main.scss';
 import Product from './Product';
+import SimpleSnackbar from './SimpleSnackbar';
 
 
 interface MainProps {
@@ -31,10 +32,6 @@ const Main: React.FC<MainProps> = () => {
         return <div className="loader"></div>;
     }
 
-    if (error) {
-        return <div>Error : {error}</div>
-    }
-
     const filteredProducts = products.filter(product => {
         const isBrandMatch = filterValue ? product.category.toLowerCase() === filterValue.toLowerCase() : true;
         const isNameMatch = searchValue ? product.title.toLowerCase().includes(searchValue.toLowerCase()) : true;
@@ -55,6 +52,7 @@ const Main: React.FC<MainProps> = () => {
                     </div>
                 ))}
             </div>
+            <SimpleSnackbar/>
         </div>
     );
 }
