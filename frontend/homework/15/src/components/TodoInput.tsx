@@ -1,7 +1,7 @@
 // TodoInput.tsx
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTodo } from '../redux/todoSlice';
+import { addTodo, clearCompletedTodos } from '../redux/todoSlice';
 
 const TodoInput: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -26,7 +26,8 @@ const TodoInput: React.FC = () => {
         value={inputValue}
         onChange={handleInputChange}
       />
-      <button onClick={handleAddTodo}>Submit</button>
+      <button id='btn' onClick={handleAddTodo}>Submit</button>
+      <button onClick={() => dispatch(clearCompletedTodos())}>Clear Checked List</button>
     </div>
   );
 };
