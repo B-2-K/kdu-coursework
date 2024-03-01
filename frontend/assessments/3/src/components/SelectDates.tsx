@@ -1,4 +1,3 @@
-import React from 'react'
 import '../styles/SelectDates.scss'
 
 export default function SelectDates() {

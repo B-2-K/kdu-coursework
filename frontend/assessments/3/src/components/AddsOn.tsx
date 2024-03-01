@@ -7,10 +7,6 @@ export default function AddsOn() {
         <div className="addson-heading">
             <div>Add-Ons</div>
         </div>
-        <div className="addson">
-            <div></div>
-            <div></div>
-        </div>
     </div>
   )
 }
