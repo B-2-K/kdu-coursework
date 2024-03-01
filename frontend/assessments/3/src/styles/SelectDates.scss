@@ -1,0 +1,22 @@
+.dates-details {
+    display: flex;
+    flex-direction: column;
+
+    .date-heading {
+        margin-left: 45px;
+        margin-right: 45px;
+        background-color: rgb(231, 118, 42);
+        padding: 10px;
+    }
+
+    .dates {
+        display: flex;
+        margin: 5px;
+        margin-left: 45px;
+        gap: 20px;
+        div {
+            border: solid 1px gray;
+            padding: 10px;
+        }
+    }
+}
