@@ -1,0 +1,21 @@
+h2 {
+    text-align: center;
+    margin: 1rem;
+    font-size: 2.2rem;
+    .blue-text {
+        color: rgb(0, 0, 87);
+    }
+}
+
+.section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    margin: 30px;
+    .products {
+        width: 20%;
+        padding: 1rem;
+        background-color: white;
+    }
+}
