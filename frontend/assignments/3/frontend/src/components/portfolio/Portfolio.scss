@@ -1,0 +1,101 @@
+.portfolio {
+    display: flex;
+    justify-content: space-around;
+    
+    .filter {
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+        margin: 50px;
+        border: 1px solid gray;
+        border-radius: 15px;
+        height: fit-content;
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px;
+            font-size: larger;
+            .clear-filter {
+                color: rgb(8, 124, 192);
+            }
+        }
+
+        #search-box {
+            margin: 10px;
+            border: 1px solid gray;
+            border-radius: 5px;
+            height: 25px;
+        }
+
+        .search-by-date {
+            display: flex;
+            gap: 10px;
+            margin: 10px;
+        }
+
+        .passed-failed {
+            display: flex;
+            flex-direction: column;
+            margin: 10px;
+            div {
+                input {
+                    margin-right: 5px;
+                }
+            }
+        }
+
+        .all-stocksTransactions {
+            max-height: 150px;
+            overflow-y: scroll;
+            margin: 10px;
+            input {
+                margin-right: 5px;
+            }
+        }
+    }
+
+    .history {
+        display: flex;
+        flex-direction: column;
+        margin-top: 50px;
+        width: 50%;
+        div {
+            display: flex;
+            flex-direction: column;
+            margin: 5px 0 5px 0;
+            div {
+                display: flex;
+                div {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 20px;
+                    div {
+                        width: 200px;
+                    }
+                }
+
+                .date-line{
+                    color: whitesmoke;
+                }
+
+                .red-dot {
+                    height: 10px;
+                    width: 10px;
+                    background-color: red;
+                    border-radius: 50%;
+                    display: inline-block;
+                  }
+
+                  .green-dot {
+                    height: 10px;
+                    width: 10px;
+                    background-color: rgb(3, 170, 45);
+                    border-radius: 50%;
+                    display: inline-block;
+                  }
+            }
+        }
+    }
+}

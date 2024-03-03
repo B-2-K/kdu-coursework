@@ -1,0 +1,17 @@
+.stock {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px;
+
+    .navbar-and-graph {
+        display: flex;
+        flex-direction: column;
+        width: 75%;
+    }
+
+    .history-and-transactions {
+        display: flex;
+        flex-direction: column;
+        width: 25%;
+    }
+}

@@ -1,0 +1,25 @@
+.header {
+    background-color: rgb(8, 124, 192);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    font-size: 2rem;
+    padding: 10px;
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .icons-and-name {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .summarizer-and-portfolio {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+}
