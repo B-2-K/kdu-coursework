@@ -1,0 +1,81 @@
+.navbar {
+    display: flex;
+    margin: 15px 4% 15px 2%;
+    height: 30px;
+    justify-content: space-around;
+    align-content: center;
+    gap: 1.5%;
+
+    .stock-selector{
+        display: flex;
+    }
+
+    .stock-symbol {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border: none;
+        width: 30px;
+        height: 15px;
+        background-color: rgb(243, 177, 33);
+      }
+      
+
+    input {
+        border: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+    }
+
+    div {
+        width: 100%;
+        padding: 10px;
+        height: 100%;
+        border: 1px solid gray;
+        text-align: center;
+        font-size: 1.2rem;
+    }
+
+    select {
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        background-color: white;
+        border: none;
+        font-size: 1.2rem;
+    }
+
+    .buy {
+        display: flex;
+        width: 30%;
+        text-align: center;
+        background-color: rgb(116, 240, 116);
+        color: rgb(0, 53, 0);
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        font-size: 1.3rem;
+    }
+
+    .sell {
+        display: flex;
+        width: 30%;
+        text-align: center;
+        background-color: rgb(245, 95, 95);
+        color: rgb(70, 0, 0);
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        font-size: 1.3rem;
+    }
+}
+
+.fi.fi-rr-arrow-small-up, .up {
+    color: green;
+}
+
+.fi.fi-rr-arrow-small-down, .down {
+    color: red;
+}

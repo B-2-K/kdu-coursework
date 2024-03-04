@@ -1,0 +1,20 @@
+.transactions {
+    border: 1px solid gray;
+    height: 36vh;
+    overflow-y: auto;
+    margin: 15px;
+    padding: 5px;
+    p {
+        margin: 5px;
+        font-size: large;
+    }
+    .wrapper {
+        border: 1px solid gray;
+        border-radius: 10px;
+        margin: 5px;
+        padding: 5px;
+        div{
+            margin:10px;
+        }
+    }
+}

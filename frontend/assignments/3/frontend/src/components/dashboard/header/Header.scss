@@ -1,0 +1,31 @@
+.header {
+    background-color: rgb(8, 124, 192);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    font-size: 2rem;
+    padding: 20px;
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .icons-and-name {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .summarizer-and-portfolio {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .header {
+        font-size: 1rem;
+    }
+}

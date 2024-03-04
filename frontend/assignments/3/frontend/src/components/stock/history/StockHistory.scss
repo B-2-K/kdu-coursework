@@ -1,0 +1,36 @@
+.stock-history-container {
+    height: 36vh;
+    overflow-y: auto;
+    border: 1px solid gray;
+    margin: 15px;
+    padding: 5px;
+
+    p {
+        margin: 5px;
+        font-size: large;
+    }
+
+    .wrapper {
+        border: 1px solid gray;
+        border-radius: 10px;
+        margin: 5px;
+        padding: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .red {
+            color: red;
+        }
+
+        .green {
+            color: green;
+        }
+
+        div {
+            margin: 7px;
+        }
+    }
+
+
+}
