@@ -68,8 +68,8 @@ io.on('connection', (socket) => {
     });
 
     const sendRandomNumber = () => {
-        const randomNumber = Math.floor(Math.random() * (500 - 200 + 1) + 200); // Generate random number between 200 and 500
-        io.emit('newRandomNumber', randomNumber); // Emit 'newRandomNumber' event instead of 'randomNumber'
+        const randomNumber = Math.floor(Math.random() * (500 - 200 + 1) + 200); 
+        io.emit('newRandomNumber', randomNumber); 
     };
 
     // Send random number every 5 seconds

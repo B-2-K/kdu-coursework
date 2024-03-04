@@ -6,6 +6,8 @@ import Header from '../dashboard/header/Header';
 import { setSearchQuery } from '../../redux/searchSlice';
 import './Portfolio.scss';
 import axios from 'axios';
+import { ClipLoader } from 'react-spinners';
+import { toast } from 'react-toastify';
 
 interface Stock {
   id: string;
@@ -130,11 +132,15 @@ export default function Portfolio() {
   }
 
   if (status === 'loading') {
-    return <div>Loading...</div>;
-  }
-
-  if (status === 'failed') {
-    return <div>Error: {error}</div>;
+    return <div><div style={{ textAlign: "center", marginTop: "5rem" }}>
+    <ClipLoader
+      color="black"
+      size={100}
+      aria-label="Loading Spinner"
+      data-testid="loader"
+      className="loader"
+    />
+  </div></div>;
   }
 
   return (
@@ -238,6 +244,7 @@ export default function Portfolio() {
           ))}
         </div>
       </div>
+        {error ? toast.error('error while fetching the portfolio') : toast.success('fetched the portfolio successfully')}
     </div>
   );
 }

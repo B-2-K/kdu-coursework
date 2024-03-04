@@ -3,13 +3,32 @@
     margin: 5px auto 5px auto;
     gap: 10px;
     font-size: large;
-    button {
-        border: none;
-        background-color: white;
-        font-size: 1rem;
-        cursor: pointer;
-    }
-}
+  }
+  
+  .board-navbar button {
+    border: none;
+    background-color: white;
+    font-size: 1.3rem;
+    cursor: pointer;
+    height: 40px;
+  }
+  
+  .board-navbar button.active {
+    position: relative;
+    text-decoration: none;
+    color: black;
+  }
+  
+  .board-navbar button.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0px;
+    width: 100%;
+    height: 2px; 
+    background-color: rgb(8, 124, 192);
+  }
+  
 
 .price-board {
     display: flex;
@@ -18,7 +37,7 @@
     margin: auto;
     border: 1px solid gray;
     border-radius: 15px;
-    font-size: larger;
+    font-size: large;
 
     a {
         color: black;
@@ -28,7 +47,7 @@
     .price-board-heading {
         display: flex;
         justify-content: space-between;
-        margin: 15px;
+        margin: 12px;
         .base-price-and-watchlist {
             display: flex;
             div {
@@ -40,9 +59,12 @@
 
             button {
                 border: 1px solid rgb(8, 124, 192);
-                width: 30px;
-                height: 30px;
+                width: 25px;
+                height: 25px;
                 padding: auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 border-radius: 50%;
                 font-size: 1.5rem;
                 cursor: pointer;
@@ -52,10 +74,13 @@
 
             .tick {
                 border: 1px solid rgb(8, 124, 192);
-                width: 30px;
-                height: 30px;
+                width: 25px;
+                height: 25px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 border-radius: 50%;
-                font-size: 1.3rem;
+                font-size: 1.2rem;
                 cursor: pointer;
                 background-color: rgb(8, 124, 192);
                 color: white;
@@ -86,9 +111,31 @@
             border: none;
             border-radius: 25px;
             padding: 5px 10px;
-            font-size: larger;
+            font-size: large;
             cursor: pointer;
             margin: 5px;
         }
     }
+}
+
+/* Custom CSS for error toast */
+.error-toast {
+  // display: flex;
+  font-size: 16px;
+  color: white;
+  border-radius: 8px;
+  // padding: 10px 20px;
+  max-width: 10px;
+}
+
+@media screen and (max-width: 500px) {
+  
+  .board-navbar {
+    font-size: 1rem;
+  }
+
+  .price-board {
+    width: 90%;
+    font-size: 1rem;
+  }
 }

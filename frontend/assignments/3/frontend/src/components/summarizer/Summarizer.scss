@@ -1,0 +1,47 @@
+.SummaryContainer {
+    width: 87%;
+    margin: auto;
+    padding-top: 2.5rem;
+  }
+  
+  .Summary {
+    background-color: #1871c2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
+  }
+  
+  .RightContainer {
+    text-align: right;
+  }
+  
+  .Company {
+    font-size: 2rem;
+  }
+  
+  .StyledDate {
+    margin: 0.25rem 0;
+    display: flex;
+  }
+  
+  @media (max-width: 600px) {
+    .Company {
+      max-width: 180px;
+    }
+  }
+  
+  @media (max-width: 450px) {
+    .StyledDate {
+      flex-direction: column;
+    }
+  }
+  
+  .redContainer {
+    background-color: #e24445;
+  }
+  

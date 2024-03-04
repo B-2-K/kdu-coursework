@@ -5,6 +5,9 @@ import { AppDispatch, RootState } from '../../../redux/store';
 import './PriceBoard.scss';
 import { Link } from 'react-router-dom';
 import { addToWatchlist, removeFromWatchlist } from '../../../redux/watchlistSlice';
+import { ClipLoader } from 'react-spinners';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const STOCKS_PER_PAGE = 10;
 const MAX_PAGE_BUTTONS = 4;
@@ -19,11 +22,9 @@ interface StockDetails {
 export default function PriceBoard() {
   const dispatch = useDispatch<AppDispatch>();
   const [savedlist, setSavedlist] = useState(false);
+  const [activeButton, setActiveButton] = useState<'explore' | 'watchlist'>('explore'); // Track the active button
   const { stocks, status, error } = useSelector((state: RootState) => state.stocks);
   const watchlist = useSelector((state: RootState) => state.watchlistStocks.stocks);
-
-  console.log(savedlist);
-  console.log(watchlist);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [hovered, setHovered] = useState(false);
@@ -38,9 +39,8 @@ export default function PriceBoard() {
 
   useEffect(() => {
     dispatch(fetchStocks());
+    {error ? toast.error('error while fetching the stocks') : toast.success('fetched the stocks successfully')}
   }, [dispatch]);
-
-  console.log(hovered);
 
   const modifiedStocks = savedlist ? watchlist : stocks;
 
@@ -97,25 +97,31 @@ export default function PriceBoard() {
 
   function handleExplore() {
     setSavedlist(false);
+    setActiveButton('explore'); // Set the active button to 'explore'
   }
 
   function handleWatchlist() {
     setSavedlist(true);
+    setActiveButton('watchlist'); // Set the active button to 'watchlist'
   }
 
   if (status === 'loading') {
-    return <div>Loading...</div>;
+    return <div><div style={{ textAlign: "center", marginTop: "5rem" }}>
+    <ClipLoader
+      color="black"
+      size={100}
+      aria-label="Loading Spinner"
+      data-testid="loader"
+      className="loader"
+    />
+  </div></div>;
   }
-
-  if (status === 'failed') {
-    return <div>Error: {error}</div>;
-  }
-
+  
   return (
     <div className="board">
       <div className="board-navbar">
-        <button onClick={handleExplore}>Explore</button>
-        <button onClick={handleWatchlist}>My Watch List</button>
+        <button onClick={handleExplore} className={activeButton === 'explore' ? 'active' : ''}>Explore</button>
+        <button onClick={handleWatchlist} className={activeButton === 'watchlist' ? 'active' : ''}>My Watch List</button>
       </div>
       <div className="price-board">
         <div className="price-board-heading">

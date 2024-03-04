@@ -47,6 +47,9 @@
 .graph-container {
     position: relative;
     overflow: hidden; /* Ensure grid lines stay within container */
+    div {
+      border: 1px dotted gray;
+    }
   }
   
   .grid-container {

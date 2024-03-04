@@ -5,22 +5,24 @@ import { RootState } from '../../../redux/store';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import io from 'socket.io-client';
-import { addTransaction } from '../../../redux/transactionsSlice';
+import { addTransaction, addUserTransaction } from '../../../redux/transactionsSlice';
 import { addHistory, addTransactionHistory } from '../../../redux/historySlice';
 import { buyStock, sellStock } from '../../../redux/stocksSlice';
+import { toast } from 'react-toastify';
 
 interface NavbarProps {
     stockSymbol: string | undefined;
+    randomNumber: number;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ stockSymbol }) => {
+const Navbar: React.FC<NavbarProps> = ({ stockSymbol, randomNumber }) => {
     const [price, setPrice] = useState<number>(20000);
     const [stockPrice, setStockprice] = useState<number>(5000);
     const [prev, setPrev] = useState<number>(510);
     const [flag, setFlag] = useState<boolean>(false);
+    const [firstTime, setFirstTime] = useState<boolean>(true);
     const [percentageChange, setPercentageChange] = useState<number>(0);
     const { stocks, status, error } = useSelector((state: RootState) => state.stocks);
-
     const userStock = useSelector((state: RootState) => state.stocks.userStocks);
     const [selectedStockSymbol, setSelectedStockSymbol] = useState(stockSymbol);
     const navigate = useNavigate();
@@ -29,41 +31,51 @@ const Navbar: React.FC<NavbarProps> = ({ stockSymbol }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const selectedStock = stocks.find(stock => stock.stock_symbol === selectedStockSymbol);
-        if (selectedStock) {
-            setStockprice(selectedStock.base_price);
-        }
+
         const socket = io('http://localhost:3000');
         setSocket(socket);
 
         socket.on('buy', (data) => {
             console.log("buy succeeded");
-            dispatch(addTransaction(data))
+            dispatch(addTransaction(data));
+            dispatch(addUserTransaction(data));
         });
 
         socket.on('sell', (data) => {
             console.log("sell succeeded");
-            dispatch(addTransaction(data))
+            dispatch(addTransaction(data));
+            dispatch(addUserTransaction(data));
         });
 
-        socket.on('newRandomNumber', (data) => {
-            // console.log(data);
-            setPercentageChange((data * 100) / stockPrice);
+        const data = randomNumber;
+        setPercentageChange((data * 100) / stockPrice);
+
+        setPrev(data);
+        if (firstTime) {
+            const selectedStock = stocks.find(stock => stock.stock_symbol === selectedStockSymbol);
+            if (selectedStock) {
+                setStockprice(selectedStock.base_price);
+            }
+            setFirstTime(false);
+        }
+        else {
             if (data >= prev) {
-                setStockprice(stockPrice + data);
+                const newPrice = stockPrice + data;
+                setStockprice(newPrice);
                 setFlag(true);
             }
             else {
-                setStockprice(stockPrice + data);
+                const newPrice = stockPrice - data;
+                setStockprice(newPrice);
                 setFlag(false);
             }
-            setPrev(data);
-        });
+        }
 
         return () => {
             socket.disconnect();
         };
-    }, []);
+    }, [firstTime, randomNumber]);
+
 
     function handleQty(e: React.ChangeEvent<HTMLInputElement>) {
         setQty(parseInt(e.target.value));
@@ -74,6 +86,7 @@ const Navbar: React.FC<NavbarProps> = ({ stockSymbol }) => {
     const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newStockSymbol = event.target.value;
         setSelectedStockSymbol(newStockSymbol);
+        setFirstTime(true);
         navigate(`/stock/${newStockSymbol}`);
     };
 
@@ -86,7 +99,7 @@ const Navbar: React.FC<NavbarProps> = ({ stockSymbol }) => {
                 date: currentDate,
                 name: selectedStock?.stock_name,
                 symbol: selectedStockSymbol,
-                price: selectedStock?.base_price,
+                price: stockPrice,
                 status: 'buy',
                 qty: qty
             };
@@ -96,13 +109,16 @@ const Navbar: React.FC<NavbarProps> = ({ stockSymbol }) => {
                 stock_name: selectedStock?.stock_name,
                 stock_symbol: selectedStockSymbol,
                 timestamp: currentDate,
-                transaction_price: selectedStock?.base_price,
+                transaction_price: stockPrice,
             }
 
-            let currPrice = selectedStock?.base_price ?? 0;
+            let currPrice = stockPrice;
             currPrice *= qty;
 
             if (price < currPrice) {
+                {
+                    toast.error('Insufficient Funds');
+                }
                 data.status = 'Failed'
             }
 
@@ -113,6 +129,9 @@ const Navbar: React.FC<NavbarProps> = ({ stockSymbol }) => {
                 quantity: qty,
             }
             if (data.status === 'Passed') {
+                {
+                    toast.success('stock bought successfully');
+                }
                 dispatch(addHistory(requestData));
                 dispatch(buyStock(buyStockUser));
             }
@@ -133,7 +152,7 @@ const Navbar: React.FC<NavbarProps> = ({ stockSymbol }) => {
                 date: currentDate,
                 name: selectedStock?.stock_name,
                 symbol: selectedStockSymbol,
-                price: selectedStock?.base_price,
+                price: stockPrice,
                 status: 'sell',
                 qty: qty
             };
@@ -143,15 +162,24 @@ const Navbar: React.FC<NavbarProps> = ({ stockSymbol }) => {
                 stock_name: selectedStock?.stock_name,
                 stock_symbol: selectedStockSymbol,
                 timestamp: currentDate,
-                transaction_price: selectedStock?.base_price,
+                transaction_price: stockPrice,
             }
 
             await axios.post('http://localhost:3000/history', requestData);
 
             const currUserStock = userStock.find(stock => stock.stock_name === selectedStock?.stock_name);
+            console.log(currUserStock);
 
             if (currUserStock && currUserStock.quantity >= qty) {
+                {
+                    toast.success('stock sold successfully');
+                }
                 data.status = 'Passed';
+            }
+            else {
+                {
+                    toast.error('not enough stocks in your portfolio');
+                }
             }
 
             if (data.status === 'Passed') {
@@ -187,7 +215,6 @@ const Navbar: React.FC<NavbarProps> = ({ stockSymbol }) => {
                         <option key={stock.id} value={stock.stock_symbol}>
                             <div className='stock-symbol'>{stock.stock_symbol}</div>
                             <div>
-
                                 <div>{stock.stock_name}</div>
                             </div>
                         </option>
@@ -195,7 +222,7 @@ const Navbar: React.FC<NavbarProps> = ({ stockSymbol }) => {
                 </select>
             </div>
             <div>
-                <span>Price </span>{flag ? <span className="up">{stockPrice}<i className="fi fi-rr-arrow-small-up"></i></span> : <span className="down">{stockPrice}<i className="fi fi-rr-arrow-small-down"></i></span>} {percentageChange.toFixed(2)}%
+                <span>Price </span>{flag ? <span className="up">{stockPrice.toFixed(2)}<i className="fi fi-rr-arrow-small-up"></i></span> : <span className="down">{stockPrice.toFixed(2)}<i className="fi fi-rr-arrow-small-down"></i></span>} {percentageChange.toFixed(2)}%
             </div>
             <div className="stock-qty">
                 <input type="number" placeholder='Enter QTY' onChange={handleQty} />
@@ -206,6 +233,8 @@ const Navbar: React.FC<NavbarProps> = ({ stockSymbol }) => {
             <div className="sell" onClick={handleSell}>
                 Sell
             </div>
+                {error ? toast.error('error while fetching the stock details') : ''}
+                {firstTime ? toast.success('stock details fetched successfully') : ''}
         </div>
     );
 };

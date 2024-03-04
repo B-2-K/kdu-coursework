@@ -13,8 +13,8 @@ export default function Header() {
         </div>
       </div>
       <div className="summarizer-and-portfolio">
-        <div className="summarizer">
-          Summarizer
+      <div className="summarizer">
+          <Link to='/summarizer'>Summarizer</Link>
         </div>
         <div className="portfolio">
           <Link to='/portfolio'>Portfolio</Link>

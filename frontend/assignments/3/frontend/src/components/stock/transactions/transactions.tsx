@@ -8,10 +8,10 @@ interface TransactionProps {
 }
 
 const Transactions: React.FC = ({ stockSymbol }) => {
-  const transactions = useSelector((state: RootState) => state.transactions.transactions);
-  console.log(transactions);
+  const userTransactions = useSelector((state: RootState) => state.transactions.userTransactions);
+  console.log(userTransactions);
 
-  console.log('transactions : ', stockSymbol);
+  console.log('user transactions : ', stockSymbol);
 
   const names = ['Rishav', 'Aakash', 'Sagun', 'Amey', 'Anupam', 'Nitesh'];
 
@@ -26,7 +26,7 @@ const Transactions: React.FC = ({ stockSymbol }) => {
   const selectedNameIndex = Math.floor(Math.random() * randomNames.length);
   const selectedName = randomNames[selectedNameIndex];
 
-  const filterTransactions = transactions.filter(transactions => transactions.symbol == stockSymbol);
+  const filterTransactions = userTransactions.filter(transactions => transactions.symbol == stockSymbol);
 
   console.log('filtered transactions', filterTransactions);
 
@@ -36,9 +36,11 @@ const Transactions: React.FC = ({ stockSymbol }) => {
       <div>
         {filterTransactions.map((transaction, index) => (
           <div className='wrapper' key={index}>
-            <div>{selectedName} bought {transaction.qty} {transaction.name}</div>
+            <div>{transaction.userName} {`${transaction.status === 'buy' ? 'bought ' : 'sold '}`}
+ {transaction.qty} {transaction.name}</div>
             <div>
-              {new Date(transaction.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
+            {new Date(transaction.date).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'GMT' })
+}
             </div>
           </div>
         ))}

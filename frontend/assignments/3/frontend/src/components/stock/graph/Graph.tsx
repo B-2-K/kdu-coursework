@@ -6,26 +6,26 @@ const ENDPOINT = "http://localhost:3000";
 
 const socket = socketIOClient(ENDPOINT);
 
-export default function Graph() {
+interface GraphProps {
+  randomNumber: number;
+}
+
+export default function Graph({ randomNumber }) {
   const [randomNumbers, setRandomNumbers] = useState<number[]>([]);
   const [flag, setFlag] = useState<number>(0);
   const barColors = ['red', 'blue'];
 
   useEffect(() => {
-    socket.on('newRandomNumber', (randomNumber) => {
-      setRandomNumbers(prevNumbers => {
-        const newNumbers = [...prevNumbers, randomNumber];
-        if (newNumbers.length > 50) {
-          return newNumbers.slice(newNumbers.length - 50);
-        } else {
-          return newNumbers;
-        }
-      });
+    setRandomNumbers(prevNumbers => {
+      const newNumbers = [...prevNumbers, randomNumber];
+      if (newNumbers.length > 50) {
+        return newNumbers.slice(newNumbers.length - 50);
+      } else {
+        return newNumbers;
+      }
     });
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+
+  }, [randomNumber]);
 
   useEffect(() => {
     const updatedBarsColors = randomNumbers.map((randomNumber, index) => {
