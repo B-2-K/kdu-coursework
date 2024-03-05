@@ -1,0 +1,11 @@
+.addson-details {
+    display: flex;
+    flex-direction: column;
+
+    .addson-heading {
+        margin-left: 20px;
+        margin-right: 20px;
+        background-color: rgb(231, 118, 42);
+        padding: 10px;
+    }
+}

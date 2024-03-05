@@ -1,0 +1,39 @@
+.rooms-details {
+    display: flex;
+    flex-direction: column;
+    .room-heading {
+        margin-left: 20px;
+        margin-right: 20px;
+        background-color: rgb(231, 118, 42);
+        padding: 10px;
+    }
+}
+
+.rooms {
+    display: flex;
+    margin: 20px;
+    gap: 20px;
+    div {
+        border: solid 1px gray;
+        padding: 10px;
+    }
+}
+
+.total-price {
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 1.6rem;
+}
+
+.date-picker-container {
+    display: flex;
+    margin: 20px;
+    gap: 20px;
+    div {
+        height: 25px;
+        input {
+            height: 100%;
+            border: solid 1px gray;
+        }
+    }
+}
