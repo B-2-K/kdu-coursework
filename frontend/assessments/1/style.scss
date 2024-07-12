@@ -1,0 +1,121 @@
+.flexbox {
+    display: flex;
+    flex-direction: column;
+    background-color: #fba4a6;
+    color: #f1f1f1;
+    padding-left: 5%;
+    padding-right: 5%;
+    height: 750px;
+    font-weight: bold;
+    font-family: sans-serif;
+    justify-content: space-around;
+
+    .navbar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        font-size: 2rem;
+
+        .first {
+            display: flex;
+        }
+
+        .second {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            gap: 50px;
+
+            div {
+                display: block;
+            }
+
+            .symbol {
+                display: none;
+            }
+        }
+
+    }
+
+    .inner-flexbox {
+        display: flex;
+        flex-direction: row;
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+            flex-grow: 0.5;
+
+            .title {
+                font-size: 5rem;
+
+                p {
+                    margin: 0;
+                }
+            }
+
+            .button {
+                font-size: 1.5rem;
+                background-color: #a84749;
+                max-width: fit-content;
+                padding: 10px;
+                border-radius: 5%;
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    .flexbox {
+        padding: 2%;
+    }
+
+    .main {
+        .title {
+            white-space: nowrap;
+        }
+
+        div {
+            display: inline;
+        }
+    }
+
+    .image {
+        flex-shrink: 1;
+    }
+}
+
+@media screen and (max-width: 576px) {
+
+    .flexbox {
+        height: 1200px;
+        justify-content: flex-start;
+        gap: 0%;
+        .navbar {
+            .second {
+                div {
+                    display: none;
+                }
+
+                .symbol {
+                    display: block;
+                }
+
+            }
+        }
+
+        .inner-flexbox {
+            display: flex;
+            flex-direction: column-reverse;
+            .main {
+                .title{
+                    font-size: 3.5rem;
+                }
+            }
+        }
+    }
+}

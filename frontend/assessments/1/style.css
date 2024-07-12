@@ -1,0 +1,94 @@
+.flexbox {
+  display: flex;
+  flex-direction: column;
+  background-color: #fba4a6;
+  color: #f1f1f1;
+  padding-left: 5%;
+  padding-right: 5%;
+  height: 750px;
+  font-weight: bold;
+  font-family: sans-serif;
+  justify-content: space-around;
+}
+.flexbox .navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 2rem;
+}
+.flexbox .navbar .first {
+  display: flex;
+}
+.flexbox .navbar .second {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 50px;
+}
+.flexbox .navbar .second div {
+  display: block;
+}
+.flexbox .navbar .second .symbol {
+  display: none;
+}
+.flexbox .inner-flexbox {
+  display: flex;
+  flex-direction: row;
+}
+.flexbox .inner-flexbox .main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  flex-grow: 0.5;
+}
+.flexbox .inner-flexbox .main .title {
+  font-size: 5rem;
+}
+.flexbox .inner-flexbox .main .title p {
+  margin: 0;
+}
+.flexbox .inner-flexbox .main .button {
+  font-size: 1.5rem;
+  background-color: #a84749;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  padding: 10px;
+  border-radius: 5%;
+}
+
+@media screen and (max-width: 768px) {
+  .flexbox {
+    padding: 2%;
+  }
+  .main .title {
+    white-space: nowrap;
+  }
+  .main div {
+    display: inline;
+  }
+  .image {
+    flex-shrink: 1;
+  }
+}
+@media screen and (max-width: 576px) {
+  .flexbox {
+    height: 1200px;
+    justify-content: flex-start;
+    gap: 0%;
+  }
+  .flexbox .navbar .second div {
+    display: none;
+  }
+  .flexbox .navbar .second .symbol {
+    display: block;
+  }
+  .flexbox .inner-flexbox {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .flexbox .inner-flexbox .main .title {
+    font-size: 3.5rem;
+  }
+}/*# sourceMappingURL=style.css.map */
