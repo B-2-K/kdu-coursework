@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Chat-App</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="navbar">
+            <h1>
+                Chat-App
+            </h1>
+        </div>
+        <div class="chat-section">
+            <div id="messages">
+            </div>
+            <div class="input-section">
+                <form id="form" action="">
+                    <div class="input-and-button">
+                        <input id="input" autocomplete="off" />
+                        <button><img src="/images/send-button.png" alt="" srcset=""></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- CDN links for socket.io -->
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"
+        integrity="sha384-Gr6Lu2Ajx28mzwyVR8CFkULdCU7kMlZ9UthllibdOSo6qAiN+yXNHqtgdTvFXMT4"
+        crossorigin="anonymous"></script>
+
+    <script src="index.js"></script>
+
+</body>
+
+</html>
