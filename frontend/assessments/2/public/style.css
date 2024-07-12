@@ -1,0 +1,100 @@
+* {
+  font-family: sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.container .navbar {
+  padding: 5px;
+  border: solid 1px black;
+  background-color: rgb(92, 92, 243);
+  align-content: center;
+  margin-bottom: 10px;
+}
+.container .main-section {
+  display: flex;
+  width: 100%;
+  flex-direction: space-between;
+}
+.container .main-section .left {
+  width: 75%;
+}
+.container .main-section .left .data-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  height: 80px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.container .main-section .left .data-details div {
+  display: flex;
+  justify-content: space-around;
+}
+.container .main-section .left .data-details div img {
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+}
+.container .main-section .left .data-details div {
+  border: solid 1px black;
+  padding: 5px;
+  width: 300px;
+  height: 40px;
+  align-items: center;
+  text-align: center;
+}
+.container .main-section .left .data-details button {
+  color: white;
+  background-color: white;
+  outline: none;
+  border: none;
+}
+.container .main-section .left .data-details #input {
+  height: 40px;
+  border: none;
+  outline: none;
+}
+.container .main-section .left .data-details .buy-btn {
+  width: 50px;
+  height: 40px;
+  background-color: red;
+}
+.container .main-section .left .data-details .sell-btn {
+  width: 50px;
+  height: 40px;
+  background-color: green;
+}
+.container .main-section .left .data-graph {
+  border: solid 1px black;
+}
+.container .main-section .right {
+  border: solid 1px black;
+  width: 100%;
+  padding: 5px;
+  margin-left: 10px;
+}
+.container .main-section .right div {
+  margin: 5px;
+}
+
+#messages {
+  display: flex;
+  background-color: rgb(255, 255, 255);
+}
+
+.transactions {
+  display: flex;
+  flex-direction: column;
+  height: 30px;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}/*# sourceMappingURL=style.css.map */
