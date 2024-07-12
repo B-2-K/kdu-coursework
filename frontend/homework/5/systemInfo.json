@@ -1,0 +1,11 @@
+{
+  "HostName": "hp-HP-EliteBook-840-G7-Notebook-PC",
+  "OperatingSystem": "linux",
+  "Architecture": "x64",
+  "OSRelease": "6.5.0-17-generic",
+  "Uptime": 13862.02,
+  "NumberOfCPUCores": 8,
+  "TotalMemory": 16524701696,
+  "FreeMemory": 11263819776,
+  "CurrentWorkingDirectory": "/home/hp/Desktop/kdu-coursework"
+}
